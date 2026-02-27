@@ -1,4 +1,5 @@
 import { notFound } from 'next/navigation';
+import Image from 'next/image';
 import { adminDb } from '@/lib/firebase-admin';
 import PostContent from '@/components/PostContent';
 import { formatDate } from '@/lib/utils';
@@ -17,7 +18,9 @@ export async function generateMetadata({
   const { slug } = await params;
   const doc = await adminDb.collection('posts').doc(slug).get();
 
-  if (!doc.exists) return { title: 'Post Not Found' };
+  if (!doc.exists) {
+    return { title: 'Post Not Found' };
+  }
 
   const data = doc.data()!;
   return {
@@ -46,9 +49,12 @@ export default async function PostPage({ params }: PageProps) {
         </time>
       </header>
       {data.coverImage && (
-        <img
+        <Image
           src={data.coverImage}
           alt={data.title}
+          width={768}
+          height={256}
+          unoptimized
           className="mb-8 h-64 w-full rounded-lg object-cover"
         />
       )}

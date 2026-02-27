@@ -24,7 +24,9 @@ export default function EditPostPage({ params }: PageProps) {
 
   useEffect(() => {
     const fetchPost = async () => {
-      if (!user) return;
+      if (!user) {
+        return;
+      }
       const token = await user.getIdToken();
       const res = await fetch(`/api/posts/${slug}`, {
         headers: { Authorization: `Bearer ${token}` },
@@ -44,7 +46,9 @@ export default function EditPostPage({ params }: PageProps) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!user || !title || !content) return;
+    if (!user || !title || !content) {
+      return;
+    }
 
     setSaving(true);
     try {

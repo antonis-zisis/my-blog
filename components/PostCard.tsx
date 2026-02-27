@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { formatDate } from '@/lib/utils';
 
 interface PostCardProps {
@@ -20,9 +21,12 @@ export default function PostCard({
     <Link href={`/posts/${slug}`} className="group block">
       <article className="rounded-lg border border-[var(--border)] p-6 transition-colors hover:bg-[var(--muted)]">
         {coverImage && (
-          <img
+          <Image
             src={coverImage}
             alt={title}
+            width={640}
+            height={192}
+            unoptimized
             className="mb-4 h-48 w-full rounded-md object-cover"
           />
         )}

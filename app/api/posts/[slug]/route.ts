@@ -3,7 +3,9 @@ import { adminDb, adminAuth } from '@/lib/firebase-admin';
 
 async function verifyAdmin(request: NextRequest): Promise<boolean> {
   const token = request.headers.get('authorization')?.split('Bearer ')[1];
-  if (!token) return false;
+  if (!token) {
+    return false;
+  }
   try {
     const decoded = await adminAuth.verifyIdToken(token);
     return decoded.uid === process.env.NEXT_PUBLIC_ADMIN_UID;
@@ -65,11 +67,21 @@ export async function PUT(
   const { title, content, excerpt, coverImage, published } = body;
 
   const updates: Record<string, unknown> = { updatedAt: new Date() };
-  if (title !== undefined) updates.title = title;
-  if (content !== undefined) updates.content = content;
-  if (excerpt !== undefined) updates.excerpt = excerpt;
-  if (coverImage !== undefined) updates.coverImage = coverImage;
-  if (published !== undefined) updates.published = published;
+  if (title !== undefined) {
+    updates.title = title;
+  }
+  if (content !== undefined) {
+    updates.content = content;
+  }
+  if (excerpt !== undefined) {
+    updates.excerpt = excerpt;
+  }
+  if (coverImage !== undefined) {
+    updates.coverImage = coverImage;
+  }
+  if (published !== undefined) {
+    updates.published = published;
+  }
 
   await adminDb.collection('posts').doc(slug).update(updates);
 

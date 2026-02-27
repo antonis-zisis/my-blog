@@ -6,7 +6,9 @@ import { getAuth } from 'firebase-admin/auth';
 function getApp(): App {
   const apps = getApps();
 
-  if (apps.length > 0) return apps[0];
+  if (apps.length > 0) {
+    return apps[0];
+  }
 
   return initializeApp({
     credential: cert({
@@ -20,7 +22,7 @@ function getApp(): App {
 export const adminDb = new Proxy({} as ReturnType<typeof getFirestore>, {
   get(_, prop) {
     const db = getFirestore(getApp());
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
     return (db as any)[prop];
   },
 });
@@ -28,7 +30,7 @@ export const adminDb = new Proxy({} as ReturnType<typeof getFirestore>, {
 export const adminAuth = new Proxy({} as ReturnType<typeof getAuth>, {
   get(_, prop) {
     const auth = getAuth(getApp());
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
     return (auth as any)[prop];
   },
 });

@@ -21,30 +21,35 @@ export default function AdminDashboard() {
   const [posts, setPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const fetchPosts = async () => {
-    if (!user) return;
-    const token = await user.getIdToken();
-    const res = await fetch('/api/posts/all', {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    // Fallback: fetch from the public endpoint + admin endpoint
-    // We'll use a dedicated admin endpoint that returns all posts
-    // For now, let's fetch all posts including drafts via individual calls
-    // Actually, let's create a simpler approach: fetch all via admin
-    if (res.ok) {
-      const data = await res.json();
-      setPosts(data);
-    }
-    setLoading(false);
-  };
-
   useEffect(() => {
-    fetchPosts();
+    if (!user) {
+      return;
+    }
+    let cancelled = false;
+    user.getIdToken().then(async (token) => {
+      const res = await fetch('/api/posts/all', {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (cancelled) {
+        return;
+      }
+      if (res.ok) {
+        setPosts(await res.json());
+      }
+      setLoading(false);
+    });
+    return () => {
+      cancelled = true;
+    };
   }, [user]);
 
   const handleDelete = async (slug: string) => {
-    if (!confirm('Are you sure you want to delete this post?')) return;
-    if (!user) return;
+    if (!confirm('Are you sure you want to delete this post?')) {
+      return;
+    }
+    if (!user) {
+      return;
+    }
     const token = await user.getIdToken();
     await fetch(`/api/posts/${slug}`, {
       method: 'DELETE',

@@ -35,7 +35,7 @@ export { getApp as app, googleProvider };
 export const auth = new Proxy({} as Auth, {
   get(_, prop) {
     const instance = getAuthInstance();
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
     const value = (instance as any)[prop];
     return typeof value === 'function' ? value.bind(instance) : value;
   },

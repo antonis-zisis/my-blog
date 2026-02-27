@@ -101,7 +101,9 @@ export default function Editor({ content, onChange }: EditorProps) {
     }
   }, [editor]);
 
-  if (!editor) return null;
+  if (!editor) {
+    return null;
+  }
 
   const s = 16;
 

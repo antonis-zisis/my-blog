@@ -18,7 +18,9 @@ export default function NewPostPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!user || !title || !content) return;
+    if (!user || !title || !content) {
+      return;
+    }
 
     setSaving(true);
     try {
