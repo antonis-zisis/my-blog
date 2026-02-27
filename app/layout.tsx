@@ -1,12 +1,12 @@
-import type { Metadata } from "next";
-import { ThemeProvider } from "next-themes";
-import { AuthProvider } from "@/lib/auth-context";
-import Navbar from "@/components/Navbar";
-import "./globals.css";
+import type { Metadata } from 'next';
+import { ThemeProvider } from 'next-themes';
+import { AuthProvider } from '@/lib/auth-context';
+import Navbar from '@/components/Navbar';
+import './globals.css';
 
 export const metadata: Metadata = {
-  title: "My Blog",
-  description: "A personal blog",
+  title: 'My Blog',
+  description: 'A personal blog',
 };
 
 export default function RootLayout({

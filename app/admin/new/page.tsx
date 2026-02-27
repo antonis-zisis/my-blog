@@ -1,18 +1,18 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { useAuth } from "@/lib/auth-context";
-import { useRouter } from "next/navigation";
-import Editor from "@/components/Editor";
-import { truncate } from "@/lib/utils";
+import { useState } from 'react';
+import { useAuth } from '@/lib/auth-context';
+import { useRouter } from 'next/navigation';
+import Editor from '@/components/Editor';
+import { truncate } from '@/lib/utils';
 
 export default function NewPostPage() {
   const { user } = useAuth();
   const router = useRouter();
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
-  const [excerpt, setExcerpt] = useState("");
-  const [coverImage, setCoverImage] = useState("");
+  const [title, setTitle] = useState('');
+  const [content, setContent] = useState('');
+  const [excerpt, setExcerpt] = useState('');
+  const [coverImage, setCoverImage] = useState('');
   const [published, setPublished] = useState(false);
   const [saving, setSaving] = useState(false);
 
@@ -26,22 +26,22 @@ export default function NewPostPage() {
       const body = {
         title,
         content,
-        excerpt: excerpt || truncate(content.replace(/<[^>]+>/g, ""), 160),
+        excerpt: excerpt || truncate(content.replace(/<[^>]+>/g, ''), 160),
         coverImage: coverImage || undefined,
         published,
       };
 
-      const res = await fetch("/api/posts", {
-        method: "POST",
+      const res = await fetch('/api/posts', {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(body),
       });
 
       if (res.ok) {
-        router.push("/admin");
+        router.push('/admin');
       }
     } finally {
       setSaving(false);
@@ -109,7 +109,7 @@ export default function NewPostPage() {
           <div className="flex gap-3">
             <button
               type="button"
-              onClick={() => router.push("/admin")}
+              onClick={() => router.push('/admin')}
               className="rounded-lg border border-[var(--border)] px-4 py-2 text-sm font-medium transition-colors hover:bg-[var(--muted)]"
             >
               Cancel
@@ -119,7 +119,7 @@ export default function NewPostPage() {
               disabled={saving || !title || !content}
               className="rounded-lg bg-[var(--primary)] px-4 py-2 text-sm font-medium text-[var(--primary-foreground)] transition-opacity hover:opacity-90 disabled:opacity-50"
             >
-              {saving ? "Saving…" : "Save Post"}
+              {saving ? 'Saving…' : 'Save Post'}
             </button>
           </div>
         </div>

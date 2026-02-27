@@ -1,14 +1,14 @@
-import { adminDb } from "@/lib/firebase-admin";
-import PostCard from "@/components/PostCard";
+import { adminDb } from '@/lib/firebase-admin';
+import PostCard from '@/components/PostCard';
 
-export const dynamic = "force-dynamic";
+export const dynamic = 'force-dynamic';
 export const revalidate = 60;
 
 export default async function HomePage() {
   const snapshot = await adminDb
-    .collection("posts")
-    .where("published", "==", true)
-    .orderBy("createdAt", "desc")
+    .collection('posts')
+    .where('published', '==', true)
+    .orderBy('createdAt', 'desc')
     .get();
 
   const posts = snapshot.docs.map((doc) => {

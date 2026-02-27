@@ -1,15 +1,15 @@
-"use client";
+'use client';
 
-import { signInWithPopup } from "firebase/auth";
-import { auth, googleProvider } from "@/lib/firebase";
-import { LogIn } from "lucide-react";
+import { signInWithPopup } from 'firebase/auth';
+import { auth, googleProvider } from '@/lib/firebase';
+import { LogIn } from 'lucide-react';
 
 export default function LoginButton() {
   const handleLogin = async () => {
     try {
       await signInWithPopup(auth, googleProvider);
     } catch (error) {
-      console.error("Login failed:", error);
+      console.error('Login failed:', error);
     }
   };
 

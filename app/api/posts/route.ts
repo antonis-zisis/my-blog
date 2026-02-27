@@ -1,12 +1,12 @@
-import { NextRequest, NextResponse } from "next/server";
-import { adminDb, adminAuth } from "@/lib/firebase-admin";
-import { generateSlug } from "@/lib/utils";
+import { NextRequest, NextResponse } from 'next/server';
+import { adminDb, adminAuth } from '@/lib/firebase-admin';
+import { generateSlug } from '@/lib/utils';
 
 export async function GET() {
   const snapshot = await adminDb
-    .collection("posts")
-    .where("published", "==", true)
-    .orderBy("createdAt", "desc")
+    .collection('posts')
+    .where('published', '==', true)
+    .orderBy('createdAt', 'desc')
     .get();
 
   const posts = snapshot.docs.map((doc) => {
@@ -26,18 +26,18 @@ export async function GET() {
 }
 
 export async function POST(request: NextRequest) {
-  const token = request.headers.get("authorization")?.split("Bearer ")[1];
+  const token = request.headers.get('authorization')?.split('Bearer ')[1];
   if (!token) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
   try {
     const decoded = await adminAuth.verifyIdToken(token);
     if (decoded.uid !== process.env.NEXT_PUBLIC_ADMIN_UID) {
-      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
   } catch {
-    return NextResponse.json({ error: "Invalid token" }, { status: 401 });
+    return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
   }
 
   const body = await request.json();
@@ -45,7 +45,7 @@ export async function POST(request: NextRequest) {
 
   if (!title || !content) {
     return NextResponse.json(
-      { error: "Title and content are required" },
+      { error: 'Title and content are required' },
       { status: 400 }
     );
   }
@@ -54,13 +54,13 @@ export async function POST(request: NextRequest) {
   const now = new Date();
 
   await adminDb
-    .collection("posts")
+    .collection('posts')
     .doc(slug)
     .set({
       slug,
       title,
       content,
-      excerpt: excerpt || "",
+      excerpt: excerpt || '',
       coverImage: coverImage || null,
       published: published ?? false,
       createdAt: now,

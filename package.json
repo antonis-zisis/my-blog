@@ -7,7 +7,9 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "format": "prettier --write .",
+    "prepare": "husky"
   },
   "keywords": [],
   "author": "",
@@ -46,5 +48,13 @@
     "slugify": "^1.6.6",
     "tailwindcss": "^4.2.1",
     "typescript": "^5.9.3"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^20.4.2",
+    "@commitlint/config-conventional": "^20.4.2",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.2.7",
+    "prettier": "^3.8.1",
+    "prettier-plugin-tailwindcss": "^0.7.2"
   }
 }

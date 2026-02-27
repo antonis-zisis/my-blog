@@ -1,13 +1,13 @@
-"use client";
+'use client';
 
-import { useEditor, EditorContent } from "@tiptap/react";
-import StarterKit from "@tiptap/starter-kit";
-import Underline from "@tiptap/extension-underline";
-import Link from "@tiptap/extension-link";
-import Image from "@tiptap/extension-image";
-import Placeholder from "@tiptap/extension-placeholder";
-import CodeBlockLowlight from "@tiptap/extension-code-block-lowlight";
-import { common, createLowlight } from "lowlight";
+import { useEditor, EditorContent } from '@tiptap/react';
+import StarterKit from '@tiptap/starter-kit';
+import Underline from '@tiptap/extension-underline';
+import Link from '@tiptap/extension-link';
+import Image from '@tiptap/extension-image';
+import Placeholder from '@tiptap/extension-placeholder';
+import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight';
+import { common, createLowlight } from 'lowlight';
 import {
   Bold,
   Italic,
@@ -24,9 +24,9 @@ import {
   Link as LinkIcon,
   Undo,
   Redo,
-} from "lucide-react";
-import { useCallback } from "react";
-import clsx from "clsx";
+} from 'lucide-react';
+import { useCallback } from 'react';
+import clsx from 'clsx';
 
 const lowlight = createLowlight(common);
 
@@ -52,10 +52,10 @@ function ToolbarButton({
       onClick={onClick}
       title={title}
       className={clsx(
-        "rounded p-1.5 transition-colors",
+        'rounded p-1.5 transition-colors',
         active
-          ? "bg-[var(--primary)] text-[var(--primary-foreground)]"
-          : "hover:bg-[var(--muted)]"
+          ? 'bg-[var(--primary)] text-[var(--primary-foreground)]'
+          : 'hover:bg-[var(--muted)]'
       )}
     >
       {children}
@@ -75,7 +75,7 @@ export default function Editor({ content, onChange }: EditorProps) {
       }),
       Image,
       Placeholder.configure({
-        placeholder: "Start writing your post…",
+        placeholder: 'Start writing your post…',
       }),
       CodeBlockLowlight.configure({
         lowlight,
@@ -88,14 +88,14 @@ export default function Editor({ content, onChange }: EditorProps) {
   });
 
   const addImage = useCallback(() => {
-    const url = window.prompt("Image URL:");
+    const url = window.prompt('Image URL:');
     if (url && editor) {
       editor.chain().focus().setImage({ src: url }).run();
     }
   }, [editor]);
 
   const addLink = useCallback(() => {
-    const url = window.prompt("Link URL:");
+    const url = window.prompt('Link URL:');
     if (url && editor) {
       editor.chain().focus().setLink({ href: url }).run();
     }
@@ -106,39 +106,39 @@ export default function Editor({ content, onChange }: EditorProps) {
   const s = 16;
 
   return (
-    <div className="rounded-lg border border-[var(--border)] overflow-hidden">
+    <div className="overflow-hidden rounded-lg border border-[var(--border)]">
       <div className="flex flex-wrap gap-0.5 border-b border-[var(--border)] bg-[var(--muted)] p-1.5">
         <ToolbarButton
           onClick={() => editor.chain().focus().toggleBold().run()}
-          active={editor.isActive("bold")}
+          active={editor.isActive('bold')}
           title="Bold"
         >
           <Bold size={s} />
         </ToolbarButton>
         <ToolbarButton
           onClick={() => editor.chain().focus().toggleItalic().run()}
-          active={editor.isActive("italic")}
+          active={editor.isActive('italic')}
           title="Italic"
         >
           <Italic size={s} />
         </ToolbarButton>
         <ToolbarButton
           onClick={() => editor.chain().focus().toggleUnderline().run()}
-          active={editor.isActive("underline")}
+          active={editor.isActive('underline')}
           title="Underline"
         >
           <UnderlineIcon size={s} />
         </ToolbarButton>
         <ToolbarButton
           onClick={() => editor.chain().focus().toggleStrike().run()}
-          active={editor.isActive("strike")}
+          active={editor.isActive('strike')}
           title="Strikethrough"
         >
           <Strikethrough size={s} />
         </ToolbarButton>
         <ToolbarButton
           onClick={() => editor.chain().focus().toggleCode().run()}
-          active={editor.isActive("code")}
+          active={editor.isActive('code')}
           title="Inline code"
         >
           <Code size={s} />
@@ -150,7 +150,7 @@ export default function Editor({ content, onChange }: EditorProps) {
           onClick={() =>
             editor.chain().focus().toggleHeading({ level: 1 }).run()
           }
-          active={editor.isActive("heading", { level: 1 })}
+          active={editor.isActive('heading', { level: 1 })}
           title="Heading 1"
         >
           <Heading1 size={s} />
@@ -159,7 +159,7 @@ export default function Editor({ content, onChange }: EditorProps) {
           onClick={() =>
             editor.chain().focus().toggleHeading({ level: 2 }).run()
           }
-          active={editor.isActive("heading", { level: 2 })}
+          active={editor.isActive('heading', { level: 2 })}
           title="Heading 2"
         >
           <Heading2 size={s} />
@@ -168,7 +168,7 @@ export default function Editor({ content, onChange }: EditorProps) {
           onClick={() =>
             editor.chain().focus().toggleHeading({ level: 3 }).run()
           }
-          active={editor.isActive("heading", { level: 3 })}
+          active={editor.isActive('heading', { level: 3 })}
           title="Heading 3"
         >
           <Heading3 size={s} />
@@ -178,21 +178,21 @@ export default function Editor({ content, onChange }: EditorProps) {
 
         <ToolbarButton
           onClick={() => editor.chain().focus().toggleBulletList().run()}
-          active={editor.isActive("bulletList")}
+          active={editor.isActive('bulletList')}
           title="Bullet list"
         >
           <List size={s} />
         </ToolbarButton>
         <ToolbarButton
           onClick={() => editor.chain().focus().toggleOrderedList().run()}
-          active={editor.isActive("orderedList")}
+          active={editor.isActive('orderedList')}
           title="Ordered list"
         >
           <ListOrdered size={s} />
         </ToolbarButton>
         <ToolbarButton
           onClick={() => editor.chain().focus().toggleBlockquote().run()}
-          active={editor.isActive("blockquote")}
+          active={editor.isActive('blockquote')}
           title="Blockquote"
         >
           <Quote size={s} />

@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import { useAuth } from "@/lib/auth-context";
-import ThemeToggle from "./ThemeToggle";
-import { PenSquare } from "lucide-react";
+import Link from 'next/link';
+import { useAuth } from '@/lib/auth-context';
+import ThemeToggle from './ThemeToggle';
+import { PenSquare } from 'lucide-react';
 
 export default function Navbar() {
   const { isAdmin } = useAuth();
@@ -18,7 +18,7 @@ export default function Navbar() {
           {isAdmin && (
             <Link
               href="/admin"
-              className="flex items-center gap-1.5 rounded-md px-3 py-2 text-sm font-medium hover:bg-[var(--muted)] transition-colors"
+              className="flex items-center gap-1.5 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-[var(--muted)]"
             >
               <PenSquare size={16} />
               Admin

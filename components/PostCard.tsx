@@ -1,5 +1,5 @@
-import Link from "next/link";
-import { formatDate } from "@/lib/utils";
+import Link from 'next/link';
+import { formatDate } from '@/lib/utils';
 
 interface PostCardProps {
   slug: string;
@@ -17,7 +17,7 @@ export default function PostCard({
   coverImage,
 }: PostCardProps) {
   return (
-    <Link href={`/posts/${slug}`} className="block group">
+    <Link href={`/posts/${slug}`} className="group block">
       <article className="rounded-lg border border-[var(--border)] p-6 transition-colors hover:bg-[var(--muted)]">
         {coverImage && (
           <img
@@ -26,7 +26,7 @@ export default function PostCard({
             className="mb-4 h-48 w-full rounded-md object-cover"
           />
         )}
-        <h2 className="text-xl font-semibold group-hover:text-[var(--primary)] transition-colors">
+        <h2 className="text-xl font-semibold transition-colors group-hover:text-[var(--primary)]">
           {title}
         </h2>
         <p className="mt-2 text-[var(--muted-foreground)]">{excerpt}</p>

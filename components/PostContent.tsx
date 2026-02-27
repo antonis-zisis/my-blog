@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import DOMPurify from "isomorphic-dompurify";
+import DOMPurify from 'isomorphic-dompurify';
 
 interface PostContentProps {
   content: string;
@@ -9,7 +9,5 @@ interface PostContentProps {
 export default function PostContent({ content }: PostContentProps) {
   const clean = DOMPurify.sanitize(content);
 
-  return (
-    <div className="prose" dangerouslySetInnerHTML={{ __html: clean }} />
-  );
+  return <div className="prose" dangerouslySetInnerHTML={{ __html: clean }} />;
 }

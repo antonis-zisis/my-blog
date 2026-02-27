@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import { useEffect, useState, use } from "react";
-import { useAuth } from "@/lib/auth-context";
-import { useRouter } from "next/navigation";
-import Editor from "@/components/Editor";
-import { truncate } from "@/lib/utils";
+import { useEffect, useState, use } from 'react';
+import { useAuth } from '@/lib/auth-context';
+import { useRouter } from 'next/navigation';
+import Editor from '@/components/Editor';
+import { truncate } from '@/lib/utils';
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -14,10 +14,10 @@ export default function EditPostPage({ params }: PageProps) {
   const { slug } = use(params);
   const { user } = useAuth();
   const router = useRouter();
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
-  const [excerpt, setExcerpt] = useState("");
-  const [coverImage, setCoverImage] = useState("");
+  const [title, setTitle] = useState('');
+  const [content, setContent] = useState('');
+  const [excerpt, setExcerpt] = useState('');
+  const [coverImage, setCoverImage] = useState('');
   const [published, setPublished] = useState(false);
   const [saving, setSaving] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -33,8 +33,8 @@ export default function EditPostPage({ params }: PageProps) {
         const data = await res.json();
         setTitle(data.title);
         setContent(data.content);
-        setExcerpt(data.excerpt || "");
-        setCoverImage(data.coverImage || "");
+        setExcerpt(data.excerpt || '');
+        setCoverImage(data.coverImage || '');
         setPublished(data.published);
       }
       setLoading(false);
@@ -52,22 +52,22 @@ export default function EditPostPage({ params }: PageProps) {
       const body = {
         title,
         content,
-        excerpt: excerpt || truncate(content.replace(/<[^>]+>/g, ""), 160),
+        excerpt: excerpt || truncate(content.replace(/<[^>]+>/g, ''), 160),
         coverImage: coverImage || null,
         published,
       };
 
       const res = await fetch(`/api/posts/${slug}`, {
-        method: "PUT",
+        method: 'PUT',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(body),
       });
 
       if (res.ok) {
-        router.push("/admin");
+        router.push('/admin');
       }
     } finally {
       setSaving(false);
@@ -142,7 +142,7 @@ export default function EditPostPage({ params }: PageProps) {
           <div className="flex gap-3">
             <button
               type="button"
-              onClick={() => router.push("/admin")}
+              onClick={() => router.push('/admin')}
               className="rounded-lg border border-[var(--border)] px-4 py-2 text-sm font-medium transition-colors hover:bg-[var(--muted)]"
             >
               Cancel
@@ -152,7 +152,7 @@ export default function EditPostPage({ params }: PageProps) {
               disabled={saving || !title || !content}
               className="rounded-lg bg-[var(--primary)] px-4 py-2 text-sm font-medium text-[var(--primary-foreground)] transition-opacity hover:opacity-90 disabled:opacity-50"
             >
-              {saving ? "Saving…" : "Update Post"}
+              {saving ? 'Saving…' : 'Update Post'}
             </button>
           </div>
         </div>

@@ -1,5 +1,5 @@
-import { initializeApp, getApps, type FirebaseApp } from "firebase/app";
-import { getAuth, GoogleAuthProvider, type Auth } from "firebase/auth";
+import { initializeApp, getApps, type FirebaseApp } from 'firebase/app';
+import { getAuth, GoogleAuthProvider, type Auth } from 'firebase/auth';
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -15,7 +15,8 @@ let _auth: Auth | undefined;
 
 function getApp(): FirebaseApp {
   if (!_app) {
-    _app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
+    _app =
+      getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
   }
   return _app;
 }
@@ -36,6 +37,6 @@ export const auth = new Proxy({} as Auth, {
     const instance = getAuthInstance();
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const value = (instance as any)[prop];
-    return typeof value === "function" ? value.bind(instance) : value;
+    return typeof value === 'function' ? value.bind(instance) : value;
   },
 });

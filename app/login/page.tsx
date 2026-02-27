@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { useAuth } from "@/lib/auth-context";
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
-import LoginButton from "@/components/LoginButton";
+import { useAuth } from '@/lib/auth-context';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
+import LoginButton from '@/components/LoginButton';
 
 export default function LoginPage() {
   const { user, isAdmin } = useAuth();
@@ -11,7 +11,7 @@ export default function LoginPage() {
 
   useEffect(() => {
     if (user && isAdmin) {
-      router.push("/admin");
+      router.push('/admin');
     }
   }, [user, isAdmin, router]);
 

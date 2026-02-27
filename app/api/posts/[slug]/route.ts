@@ -1,8 +1,8 @@
-import { NextRequest, NextResponse } from "next/server";
-import { adminDb, adminAuth } from "@/lib/firebase-admin";
+import { NextRequest, NextResponse } from 'next/server';
+import { adminDb, adminAuth } from '@/lib/firebase-admin';
 
 async function verifyAdmin(request: NextRequest): Promise<boolean> {
-  const token = request.headers.get("authorization")?.split("Bearer ")[1];
+  const token = request.headers.get('authorization')?.split('Bearer ')[1];
   if (!token) return false;
   try {
     const decoded = await adminAuth.verifyIdToken(token);
@@ -17,10 +17,10 @@ export async function GET(
   { params }: { params: Promise<{ slug: string }> }
 ) {
   const { slug } = await params;
-  const doc = await adminDb.collection("posts").doc(slug).get();
+  const doc = await adminDb.collection('posts').doc(slug).get();
 
   if (!doc.exists) {
-    return NextResponse.json({ error: "Not found" }, { status: 404 });
+    return NextResponse.json({ error: 'Not found' }, { status: 404 });
   }
 
   const data = doc.data()!;
@@ -29,7 +29,7 @@ export async function GET(
   if (!data.published) {
     const isAdmin = await verifyAdmin(request);
     if (!isAdmin) {
-      return NextResponse.json({ error: "Not found" }, { status: 404 });
+      return NextResponse.json({ error: 'Not found' }, { status: 404 });
     }
   }
 
@@ -51,14 +51,14 @@ export async function PUT(
 ) {
   const isAdmin = await verifyAdmin(request);
   if (!isAdmin) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
   const { slug } = await params;
-  const doc = await adminDb.collection("posts").doc(slug).get();
+  const doc = await adminDb.collection('posts').doc(slug).get();
 
   if (!doc.exists) {
-    return NextResponse.json({ error: "Not found" }, { status: 404 });
+    return NextResponse.json({ error: 'Not found' }, { status: 404 });
   }
 
   const body = await request.json();
@@ -71,7 +71,7 @@ export async function PUT(
   if (coverImage !== undefined) updates.coverImage = coverImage;
   if (published !== undefined) updates.published = published;
 
-  await adminDb.collection("posts").doc(slug).update(updates);
+  await adminDb.collection('posts').doc(slug).update(updates);
 
   return NextResponse.json({ slug });
 }
@@ -82,11 +82,11 @@ export async function DELETE(
 ) {
   const isAdmin = await verifyAdmin(request);
   if (!isAdmin) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
   const { slug } = await params;
-  await adminDb.collection("posts").doc(slug).delete();
+  await adminDb.collection('posts').doc(slug).delete();
 
   return NextResponse.json({ success: true });
 }

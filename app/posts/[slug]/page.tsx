@@ -1,21 +1,23 @@
-import { notFound } from "next/navigation";
-import { adminDb } from "@/lib/firebase-admin";
-import PostContent from "@/components/PostContent";
-import { formatDate } from "@/lib/utils";
-import type { Metadata } from "next";
+import { notFound } from 'next/navigation';
+import { adminDb } from '@/lib/firebase-admin';
+import PostContent from '@/components/PostContent';
+import { formatDate } from '@/lib/utils';
+import type { Metadata } from 'next';
 
-export const dynamic = "force-dynamic";
+export const dynamic = 'force-dynamic';
 export const revalidate = 60;
 
 interface PageProps {
   params: Promise<{ slug: string }>;
 }
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: PageProps): Promise<Metadata> {
   const { slug } = await params;
-  const doc = await adminDb.collection("posts").doc(slug).get();
+  const doc = await adminDb.collection('posts').doc(slug).get();
 
-  if (!doc.exists) return { title: "Post Not Found" };
+  if (!doc.exists) return { title: 'Post Not Found' };
 
   const data = doc.data()!;
   return {
@@ -26,7 +28,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function PostPage({ params }: PageProps) {
   const { slug } = await params;
-  const doc = await adminDb.collection("posts").doc(slug).get();
+  const doc = await adminDb.collection('posts').doc(slug).get();
 
   if (!doc.exists || !doc.data()?.published) {
     notFound();
