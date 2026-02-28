@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { adminDb, adminAuth } from '@/lib/firebase-admin';
+import { readingTime } from '@/lib/utils';
 
 export async function GET(request: NextRequest) {
   const token = request.headers.get('authorization')?.split('Bearer ')[1];
@@ -30,6 +31,7 @@ export async function GET(request: NextRequest) {
       published: data.published,
       createdAt: data.createdAt?.toDate().toISOString(),
       updatedAt: data.updatedAt?.toDate().toISOString(),
+      readingTime: readingTime(data.content ?? ''),
     };
   });
 

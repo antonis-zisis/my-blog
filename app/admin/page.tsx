@@ -14,6 +14,7 @@ interface Post {
   published: boolean;
   createdAt: string;
   updatedAt: string;
+  readingTime: number;
 }
 
 export default function AdminDashboard() {
@@ -108,8 +109,10 @@ export default function AdminDashboard() {
                     {post.published ? 'Published' : 'Draft'}
                   </span>
                 </div>
-                <p className="mt-1 text-sm text-(--muted-foreground)">
-                  {formatDate(post.createdAt)}
+                <p className="mt-1 flex items-center gap-2 text-sm text-(--muted-foreground)">
+                  <span>{formatDate(post.createdAt)}</span>
+                  <span>·</span>
+                  <span>{post.readingTime} min read</span>
                 </p>
               </div>
               <div className="flex items-center gap-2">

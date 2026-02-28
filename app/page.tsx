@@ -1,5 +1,6 @@
 import { adminDb } from '@/lib/firebase-admin';
 import PostCard from '@/components/PostCard';
+import { readingTime } from '@/lib/utils';
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 60;
@@ -19,6 +20,7 @@ export default async function HomePage() {
       excerpt: data.excerpt as string,
       coverImage: (data.coverImage as string) || null,
       createdAt: data.createdAt?.toDate().toISOString() as string,
+      readingTime: readingTime(data.content ?? ''),
     };
   });
 

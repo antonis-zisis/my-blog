@@ -8,6 +8,7 @@ interface PostCardProps {
   excerpt: string;
   createdAt: string;
   coverImage?: string | null;
+  readingTime: number;
 }
 
 export default function PostCard({
@@ -16,6 +17,7 @@ export default function PostCard({
   excerpt,
   createdAt,
   coverImage,
+  readingTime,
 }: PostCardProps) {
   return (
     <Link href={`/posts/${slug}`} className="group block">
@@ -32,9 +34,11 @@ export default function PostCard({
         )}
         <h2 className="text-xl font-semibold text-(--primary)">{title}</h2>
         <p className="mt-2 text-(--muted-foreground)">{excerpt}</p>
-        <time className="mt-3 block text-sm text-(--muted-foreground)">
-          {formatDate(createdAt)}
-        </time>
+        <div className="mt-3 flex items-center gap-2 text-sm text-(--muted-foreground)">
+          <time>{formatDate(createdAt)}</time>
+          <span>·</span>
+          <span>{readingTime} min read</span>
+        </div>
       </article>
     </Link>
   );

@@ -112,14 +112,14 @@ export default function NewPostPage() {
             <button
               type="button"
               onClick={() => router.push('/admin')}
-              className="rounded-lg border border-(--border) px-4 py-2 text-sm font-medium transition-colors hover:bg-(--muted)"
+              className="cursor-pointer rounded-lg border border-(--border) px-4 py-2 text-sm font-medium transition-colors hover:bg-(--muted)"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={saving || !title || !content}
-              className="rounded-lg bg-(--primary) px-4 py-2 text-sm font-medium text-(--primary-foreground) transition-opacity hover:opacity-90 disabled:opacity-50"
+              className="cursor-pointer rounded-lg bg-(--primary) px-4 py-2 text-sm font-medium text-(--primary-foreground) transition-opacity hover:opacity-90 disabled:opacity-50"
             >
               {saving ? 'Saving…' : 'Save Post'}
             </button>

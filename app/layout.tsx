@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { ThemeProvider } from 'next-themes';
 import { AuthProvider } from '@/lib/auth-context';
 import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -21,6 +22,7 @@ export default function RootLayout({
           <AuthProvider>
             <Navbar />
             <main className="mx-auto max-w-5xl px-4 py-8">{children}</main>
+            <Footer />
           </AuthProvider>
         </ThemeProvider>
       </body>
