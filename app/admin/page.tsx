@@ -7,6 +7,7 @@ import { auth } from '@/lib/firebase';
 import Link from 'next/link';
 import { formatDate } from '@/lib/utils';
 import { Plus, Pencil, Trash2, LogOut } from 'lucide-react';
+import ConfirmModal from '@/components/ConfirmModal';
 
 interface Post {
   slug: string;
@@ -21,6 +22,7 @@ export default function AdminDashboard() {
   const { user } = useAuth();
   const [posts, setPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState(true);
+  const [deletingSlug, setDeletingSlug] = useState<string | null>(null);
 
   useEffect(() => {
     if (!user) {
@@ -44,20 +46,18 @@ export default function AdminDashboard() {
     };
   }, [user]);
 
-  const handleDelete = async (slug: string) => {
-    if (!confirm('Are you sure you want to delete this post?')) {
-      return;
-    }
-    if (!user) {
-      return;
-    }
+  const confirmDelete = async () => {
+    if (!deletingSlug || !user) return;
     const token = await user.getIdToken();
-    await fetch(`/api/posts/${slug}`, {
+    await fetch(`/api/posts/${deletingSlug}`, {
       method: 'DELETE',
       headers: { Authorization: `Bearer ${token}` },
     });
-    setPosts((prev) => prev.filter((p) => p.slug !== slug));
+    setPosts((prev) => prev.filter((p) => p.slug !== deletingSlug));
+    setDeletingSlug(null);
   };
+
+  const deletingPost = posts.find((p) => p.slug === deletingSlug);
 
   return (
     <div>
@@ -124,7 +124,7 @@ export default function AdminDashboard() {
                   <Pencil size={16} />
                 </Link>
                 <button
-                  onClick={() => handleDelete(post.slug)}
+                  onClick={() => setDeletingSlug(post.slug)}
                   className="cursor-pointer rounded-md p-2 text-(--destructive) transition-colors hover:bg-(--muted)"
                   title="Delete"
                 >
@@ -134,6 +134,16 @@ export default function AdminDashboard() {
             </div>
           ))}
         </div>
+      )}
+
+      {deletingSlug && (
+        <ConfirmModal
+          title="Delete post"
+          message={`"${deletingPost?.title}" will be permanently deleted.`}
+          confirmLabel="Delete"
+          onConfirm={confirmDelete}
+          onCancel={() => setDeletingSlug(null)}
+        />
       )}
     </div>
   );
