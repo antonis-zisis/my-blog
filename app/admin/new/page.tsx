@@ -15,6 +15,7 @@ export default function NewPostPage() {
   const [coverImage, setCoverImage] = useState('');
   const [published, setPublished] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -23,6 +24,7 @@ export default function NewPostPage() {
     }
 
     setSaving(true);
+    setError(null);
     try {
       const token = await user.getIdToken();
       const body = {
@@ -44,6 +46,9 @@ export default function NewPostPage() {
 
       if (res.ok) {
         router.push('/admin');
+      } else {
+        const data = await res.json();
+        setError(data.error ?? 'Failed to save post.');
       }
     } finally {
       setSaving(false);
@@ -96,6 +101,8 @@ export default function NewPostPage() {
           <label className="mb-1.5 block text-sm font-medium">Content</label>
           <Editor content={content} onChange={setContent} />
         </div>
+
+        {error && <p className="text-sm text-(--destructive)">{error}</p>}
 
         <div className="flex items-center gap-6">
           <label className="flex items-center gap-2">

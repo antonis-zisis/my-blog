@@ -53,6 +53,17 @@ export async function POST(request: NextRequest) {
   const slug = generateSlug(title);
   const now = new Date();
 
+  const existing = await adminDb.collection('posts').doc(slug).get();
+  if (existing.exists) {
+    return NextResponse.json(
+      {
+        error:
+          'A post with a similar title already exists. Please use a different title.',
+      },
+      { status: 409 }
+    );
+  }
+
   await adminDb
     .collection('posts')
     .doc(slug)
