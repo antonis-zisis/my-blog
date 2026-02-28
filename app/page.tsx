@@ -26,7 +26,7 @@ export default async function HomePage() {
     <div>
       <h1 className="mb-8 text-3xl font-bold">Latest Posts</h1>
       {posts.length === 0 ? (
-        <p className="text-[var(--muted-foreground)]">No posts yet.</p>
+        <p className="text-(--muted-foreground)">No posts yet.</p>
       ) : (
         <div className="space-y-6">
           {posts.map((post) => (

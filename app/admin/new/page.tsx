@@ -61,7 +61,7 @@ export default function NewPostPage() {
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             required
-            className="w-full rounded-lg border border-[var(--border)] bg-transparent px-4 py-2.5 focus:border-[var(--primary)] focus:outline-none"
+            className="w-full rounded-lg border border-(--border) bg-transparent px-4 py-2.5 focus:border-(--primary) focus:outline-none"
             placeholder="Post title"
           />
         </div>
@@ -74,7 +74,7 @@ export default function NewPostPage() {
             value={excerpt}
             onChange={(e) => setExcerpt(e.target.value)}
             rows={2}
-            className="w-full rounded-lg border border-[var(--border)] bg-transparent px-4 py-2.5 focus:border-[var(--primary)] focus:outline-none"
+            className="w-full rounded-lg border border-(--border) bg-transparent px-4 py-2.5 focus:border-(--primary) focus:outline-none"
             placeholder="Brief description (auto-generated if empty)"
           />
         </div>
@@ -87,7 +87,7 @@ export default function NewPostPage() {
             type="url"
             value={coverImage}
             onChange={(e) => setCoverImage(e.target.value)}
-            className="w-full rounded-lg border border-[var(--border)] bg-transparent px-4 py-2.5 focus:border-[var(--primary)] focus:outline-none"
+            className="w-full rounded-lg border border-(--border) bg-transparent px-4 py-2.5 focus:border-(--primary) focus:outline-none"
             placeholder="https://example.com/image.jpg"
           />
         </div>
@@ -112,14 +112,14 @@ export default function NewPostPage() {
             <button
               type="button"
               onClick={() => router.push('/admin')}
-              className="rounded-lg border border-[var(--border)] px-4 py-2 text-sm font-medium transition-colors hover:bg-[var(--muted)]"
+              className="rounded-lg border border-(--border) px-4 py-2 text-sm font-medium transition-colors hover:bg-(--muted)"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={saving || !title || !content}
-              className="rounded-lg bg-[var(--primary)] px-4 py-2 text-sm font-medium text-[var(--primary-foreground)] transition-opacity hover:opacity-90 disabled:opacity-50"
+              className="rounded-lg bg-(--primary) px-4 py-2 text-sm font-medium text-(--primary-foreground) transition-opacity hover:opacity-90 disabled:opacity-50"
             >
               {saving ? 'Saving…' : 'Save Post'}
             </button>

@@ -81,7 +81,7 @@ export default function EditPostPage({ params }: PageProps) {
   if (loading) {
     return (
       <div className="flex justify-center py-20">
-        <div className="h-8 w-8 animate-spin rounded-full border-4 border-[var(--muted)] border-t-[var(--primary)]" />
+        <div className="h-8 w-8 animate-spin rounded-full border-4 border-(--muted) border-t-(--primary)" />
       </div>
     );
   }
@@ -97,7 +97,7 @@ export default function EditPostPage({ params }: PageProps) {
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             required
-            className="w-full rounded-lg border border-[var(--border)] bg-transparent px-4 py-2.5 focus:border-[var(--primary)] focus:outline-none"
+            className="w-full rounded-lg border border-(--border) bg-transparent px-4 py-2.5 focus:border-(--primary) focus:outline-none"
           />
         </div>
 
@@ -109,7 +109,7 @@ export default function EditPostPage({ params }: PageProps) {
             value={excerpt}
             onChange={(e) => setExcerpt(e.target.value)}
             rows={2}
-            className="w-full rounded-lg border border-[var(--border)] bg-transparent px-4 py-2.5 focus:border-[var(--primary)] focus:outline-none"
+            className="w-full rounded-lg border border-(--border) bg-transparent px-4 py-2.5 focus:border-(--primary) focus:outline-none"
           />
         </div>
 
@@ -121,7 +121,7 @@ export default function EditPostPage({ params }: PageProps) {
             type="url"
             value={coverImage}
             onChange={(e) => setCoverImage(e.target.value)}
-            className="w-full rounded-lg border border-[var(--border)] bg-transparent px-4 py-2.5 focus:border-[var(--primary)] focus:outline-none"
+            className="w-full rounded-lg border border-(--border) bg-transparent px-4 py-2.5 focus:border-(--primary) focus:outline-none"
           />
         </div>
 
@@ -147,14 +147,14 @@ export default function EditPostPage({ params }: PageProps) {
             <button
               type="button"
               onClick={() => router.push('/admin')}
-              className="rounded-lg border border-[var(--border)] px-4 py-2 text-sm font-medium transition-colors hover:bg-[var(--muted)]"
+              className="rounded-lg border border-(--border) px-4 py-2 text-sm font-medium transition-colors hover:bg-(--muted)"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={saving || !title || !content}
-              className="rounded-lg bg-[var(--primary)] px-4 py-2 text-sm font-medium text-[var(--primary-foreground)] transition-opacity hover:opacity-90 disabled:opacity-50"
+              className="rounded-lg bg-(--primary) px-4 py-2 text-sm font-medium text-(--primary-foreground) transition-opacity hover:opacity-90 disabled:opacity-50"
             >
               {saving ? 'Saving…' : 'Update Post'}
             </button>

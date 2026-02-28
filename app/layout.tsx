@@ -5,8 +5,8 @@ import Navbar from '@/components/Navbar';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'My Blog',
-  description: 'A personal blog',
+  title: 'My Blog | Antonis Zisis',
+  description: 'Antonis Zisis personal blog.',
 };
 
 export default function RootLayout({
@@ -20,7 +20,7 @@ export default function RootLayout({
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <AuthProvider>
             <Navbar />
-            <main className="mx-auto max-w-3xl px-4 py-8">{children}</main>
+            <main className="mx-auto max-w-5xl px-4 py-8">{children}</main>
           </AuthProvider>
         </ThemeProvider>
       </body>

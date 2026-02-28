@@ -65,14 +65,14 @@ export default function AdminDashboard() {
         <div className="flex items-center gap-3">
           <Link
             href="/admin/new"
-            className="flex items-center gap-1.5 rounded-lg bg-[var(--primary)] px-4 py-2 text-sm font-medium text-[var(--primary-foreground)] transition-opacity hover:opacity-90"
+            className="flex items-center gap-1.5 rounded-lg bg-(--primary) px-4 py-2 text-sm font-medium text-(--primary-foreground) transition-opacity hover:opacity-90"
           >
             <Plus size={16} />
             New Post
           </Link>
           <button
             onClick={() => signOut(auth)}
-            className="flex items-center gap-1.5 rounded-lg border border-[var(--border)] px-4 py-2 text-sm font-medium transition-colors hover:bg-[var(--muted)]"
+            className="flex items-center gap-1.5 rounded-lg border border-(--border) px-4 py-2 text-sm font-medium transition-colors hover:bg-(--muted)"
           >
             <LogOut size={16} />
             Sign Out
@@ -82,10 +82,10 @@ export default function AdminDashboard() {
 
       {loading ? (
         <div className="flex justify-center py-10">
-          <div className="h-8 w-8 animate-spin rounded-full border-4 border-[var(--muted)] border-t-[var(--primary)]" />
+          <div className="h-8 w-8 animate-spin rounded-full border-4 border-(--muted) border-t-(--primary)" />
         </div>
       ) : posts.length === 0 ? (
-        <p className="text-[var(--muted-foreground)]">
+        <p className="text-(--muted-foreground)">
           No posts yet. Create your first post!
         </p>
       ) : (
@@ -93,7 +93,7 @@ export default function AdminDashboard() {
           {posts.map((post) => (
             <div
               key={post.slug}
-              className="flex items-center justify-between rounded-lg border border-[var(--border)] p-4"
+              className="flex items-center justify-between rounded-lg border border-(--border) p-4"
             >
               <div>
                 <div className="flex items-center gap-2">
@@ -108,21 +108,21 @@ export default function AdminDashboard() {
                     {post.published ? 'Published' : 'Draft'}
                   </span>
                 </div>
-                <p className="mt-1 text-sm text-[var(--muted-foreground)]">
+                <p className="mt-1 text-sm text-(--muted-foreground)">
                   {formatDate(post.createdAt)}
                 </p>
               </div>
               <div className="flex items-center gap-2">
                 <Link
                   href={`/admin/edit/${post.slug}`}
-                  className="rounded-md p-2 transition-colors hover:bg-[var(--muted)]"
+                  className="rounded-md p-2 transition-colors hover:bg-(--muted)"
                   title="Edit"
                 >
                   <Pencil size={16} />
                 </Link>
                 <button
                   onClick={() => handleDelete(post.slug)}
-                  className="rounded-md p-2 text-[var(--destructive)] transition-colors hover:bg-[var(--muted)]"
+                  className="rounded-md p-2 text-(--destructive) transition-colors hover:bg-(--muted)"
                   title="Delete"
                 >
                   <Trash2 size={16} />

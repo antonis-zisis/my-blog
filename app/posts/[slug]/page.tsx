@@ -44,10 +44,11 @@ export default async function PostPage({ params }: PageProps) {
     <article>
       <header className="mb-8">
         <h1 className="text-3xl font-bold">{data.title}</h1>
-        <time className="mt-2 block text-[var(--muted-foreground)]">
+        <time className="mt-2 block text-(--muted-foreground)">
           {formatDate(createdAt)}
         </time>
       </header>
+
       {data.coverImage && (
         <Image
           src={data.coverImage}
@@ -58,6 +59,7 @@ export default async function PostPage({ params }: PageProps) {
           className="mb-8 h-64 w-full rounded-lg object-cover"
         />
       )}
+
       <PostContent content={data.content} />
     </article>
   );
