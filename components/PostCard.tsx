@@ -33,8 +33,8 @@ export default function PostCard({
           />
         )}
         <h2 className="text-xl font-semibold text-(--primary)">{title}</h2>
-        <p className="text-base text-(--muted-foreground)">{excerpt}</p>
-        <div className="mt-3 flex items-center gap-2 text-xs text-(--muted-foreground)">
+        <p className="mt-1 text-base text-(--muted-foreground)">{excerpt}</p>
+        <div className="mt-4 flex items-center justify-end gap-2 text-xs text-(--muted-foreground)">
           <time>{formatDate(createdAt)}</time>
           <span>·</span>
           <span>{readingTime} min read</span>
