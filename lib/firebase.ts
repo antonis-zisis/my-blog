@@ -1,5 +1,6 @@
 import { initializeApp, getApps, type FirebaseApp } from 'firebase/app';
 import { getAuth, GoogleAuthProvider, type Auth } from 'firebase/auth';
+import { getAnalytics, isSupported, type Analytics } from 'firebase/analytics';
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -13,6 +14,7 @@ const firebaseConfig = {
 
 let _app: FirebaseApp | undefined;
 let _auth: Auth | undefined;
+let _analytics: Analytics | undefined;
 
 function getApp(): FirebaseApp {
   if (!_app) {
@@ -27,6 +29,20 @@ function getAuthInstance(): Auth {
     _auth = getAuth(getApp());
   }
   return _auth;
+}
+
+export async function initAnalytics(): Promise<Analytics | null> {
+  const supported = await isSupported();
+
+  if (!supported) {
+    return null;
+  }
+
+  if (!_analytics) {
+    _analytics = getAnalytics(getApp());
+  }
+
+  return _analytics;
 }
 
 const googleProvider = new GoogleAuthProvider();

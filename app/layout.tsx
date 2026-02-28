@@ -4,6 +4,7 @@ import { ThemeProvider } from 'next-themes';
 import { AuthProvider } from '@/lib/auth-context';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import FirebaseAnalytics from '@/components/FirebaseAnalytics';
 import './globals.css';
 
 const inter = Inter({
@@ -29,6 +30,7 @@ export default function RootLayout({
             <Navbar />
             <main className="mx-auto max-w-5xl px-4 py-8">{children}</main>
             <Footer />
+            <FirebaseAnalytics />
           </AuthProvider>
         </ThemeProvider>
       </body>
