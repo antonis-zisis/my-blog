@@ -1,6 +1,10 @@
 # My Blog
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/ef7d0975-f273-4a3a-ab21-4b07ed2422f5/deploy-status)](https://app.netlify.com/projects/az-my-blog/deploys)
+
 A personal blog built with Next.js and Firebase. The blog owner signs in via Google to create, edit, and delete posts using a rich text editor. Visitors can read posts without logging in and toggle between dark and light mode.
+
+[https://blog.antoniszisis.com/](https://blog.antoniszisis.com/)
 
 ## Tech Stack
 
@@ -17,7 +21,7 @@ A personal blog built with Next.js and Firebase. The blog owner signs in via Goo
 
 ### Prerequisites
 
-- Node.js 18+
+- Node.js 24
 - pnpm
 - A Firebase project with Firestore and Authentication (Google provider) enabled
 
@@ -69,7 +73,7 @@ A personal blog built with Next.js and Firebase. The blog owner signs in via Goo
 
 ## Project Structure
 
-```
+```text
 app/
 ├── layout.tsx                  # Root layout (ThemeProvider, AuthProvider, Navbar)
 ├── page.tsx                    # Homepage — list published posts

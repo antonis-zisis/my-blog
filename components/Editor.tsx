@@ -54,8 +54,8 @@ function ToolbarButton({
       className={clsx(
         'rounded p-1.5 transition-colors',
         active
-          ? 'bg-[var(--primary)] text-[var(--primary-foreground)]'
-          : 'hover:bg-[var(--muted)]'
+          ? 'bg-(--primary) text-(--primary-foreground)'
+          : 'hover:bg-(--muted)'
       )}
     >
       {children}
@@ -68,6 +68,8 @@ export default function Editor({ content, onChange }: EditorProps) {
     extensions: [
       StarterKit.configure({
         codeBlock: false,
+        link: false,
+        underline: false,
       }),
       Underline,
       Link.configure({
@@ -82,6 +84,7 @@ export default function Editor({ content, onChange }: EditorProps) {
       }),
     ],
     content,
+    immediatelyRender: false,
     onUpdate: ({ editor }) => {
       onChange(editor.getHTML());
     },
@@ -108,8 +111,8 @@ export default function Editor({ content, onChange }: EditorProps) {
   const s = 16;
 
   return (
-    <div className="overflow-hidden rounded-lg border border-[var(--border)]">
-      <div className="flex flex-wrap gap-0.5 border-b border-[var(--border)] bg-[var(--muted)] p-1.5">
+    <div className="overflow-hidden rounded-lg border border-(--border)">
+      <div className="flex flex-wrap gap-0.5 border-b border-(--border) bg-(--muted) p-1.5">
         <ToolbarButton
           onClick={() => editor.chain().focus().toggleBold().run()}
           active={editor.isActive('bold')}
@@ -146,7 +149,7 @@ export default function Editor({ content, onChange }: EditorProps) {
           <Code size={s} />
         </ToolbarButton>
 
-        <div className="mx-1 w-px bg-[var(--border)]" />
+        <div className="mx-1 w-px bg-(--border)" />
 
         <ToolbarButton
           onClick={() =>
@@ -176,7 +179,7 @@ export default function Editor({ content, onChange }: EditorProps) {
           <Heading3 size={s} />
         </ToolbarButton>
 
-        <div className="mx-1 w-px bg-[var(--border)]" />
+        <div className="mx-1 w-px bg-(--border)" />
 
         <ToolbarButton
           onClick={() => editor.chain().focus().toggleBulletList().run()}
@@ -200,7 +203,7 @@ export default function Editor({ content, onChange }: EditorProps) {
           <Quote size={s} />
         </ToolbarButton>
 
-        <div className="mx-1 w-px bg-[var(--border)]" />
+        <div className="mx-1 w-px bg-(--border)" />
 
         <ToolbarButton onClick={addLink} title="Add link">
           <LinkIcon size={s} />
@@ -209,7 +212,7 @@ export default function Editor({ content, onChange }: EditorProps) {
           <ImageIcon size={s} />
         </ToolbarButton>
 
-        <div className="mx-1 w-px bg-[var(--border)]" />
+        <div className="mx-1 w-px bg-(--border)" />
 
         <ToolbarButton
           onClick={() => editor.chain().focus().undo().run()}
