@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import { adminDb } from '@/lib/firebase-admin';
 import PostContent from '@/components/PostContent';
-import { formatDate } from '@/lib/utils';
+import { formatDate, readingTime } from '@/lib/utils';
 import type { Metadata } from 'next';
 
 export const dynamic = 'force-dynamic';
@@ -24,7 +24,7 @@ export async function generateMetadata({
 
   const data = doc.data()!;
   return {
-    title: `${data.title} | My Blog`,
+    title: `${data.title} | Blog by Antonis Zisis`,
     description: data.excerpt,
   };
 }
@@ -39,14 +39,17 @@ export default async function PostPage({ params }: PageProps) {
 
   const data = doc.data()!;
   const createdAt = data.createdAt?.toDate().toISOString();
+  const mins = readingTime(data.content ?? '');
 
   return (
     <article>
       <header className="mb-8">
-        <h1 className="text-3xl font-bold">{data.title}</h1>
-        <time className="mt-2 block text-(--muted-foreground)">
-          {formatDate(createdAt)}
-        </time>
+        <h1 className="text-3xl font-bold text-(--primary)">{data.title}</h1>
+        <div className="mt-2 flex items-center gap-2 text-(--muted-foreground)">
+          <time>{formatDate(createdAt)}</time>
+          <span>·</span>
+          <span>{mins} min read</span>
+        </div>
       </header>
 
       {data.coverImage && (

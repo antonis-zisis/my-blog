@@ -30,7 +30,7 @@ export default async function HomePage() {
       {posts.length === 0 ? (
         <p className="text-(--muted-foreground)">No posts yet.</p>
       ) : (
-        <div className="space-y-6">
+        <div className="space-y-2">
           {posts.map((post) => (
             <PostCard key={post.slug} {...post} />
           ))}

@@ -8,7 +8,15 @@ export default function Footer() {
           Copyright © {new Date().getFullYear()} | All rights reserved.
         </span>
 
-        <div className="flex gap-5">
+        <div className="flex items-center gap-5">
+          <a
+            href="https://www.antoniszisis.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-xs text-(--muted-foreground) transition-colors hover:text-(--primary)"
+          >
+            website
+          </a>
           <a
             href="https://github.com/antonis-zisis"
             target="_blank"

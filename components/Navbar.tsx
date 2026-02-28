@@ -12,7 +12,7 @@ export default function Navbar() {
     <header className="shadow">
       <nav className="mx-auto flex max-w-5xl items-center justify-between px-4 py-4">
         <Link href="/" className="text-xl font-bold text-(--primary)">
-          My Blog
+          Blog by Antonis Zisis
         </Link>
 
         <div className="flex items-center gap-2">
