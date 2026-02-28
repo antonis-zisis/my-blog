@@ -72,7 +72,7 @@ export default function AdminDashboard() {
           </Link>
           <button
             onClick={() => signOut(auth)}
-            className="flex items-center gap-1.5 rounded-lg border border-(--border) px-4 py-2 text-sm font-medium transition-colors hover:bg-(--muted)"
+            className="flex cursor-pointer items-center gap-1.5 rounded-lg border border-(--border) px-4 py-2 text-sm font-medium transition-colors hover:bg-(--muted)"
           >
             <LogOut size={16} />
             Sign Out
@@ -122,7 +122,7 @@ export default function AdminDashboard() {
                 </Link>
                 <button
                   onClick={() => handleDelete(post.slug)}
-                  className="rounded-md p-2 text-(--destructive) transition-colors hover:bg-(--muted)"
+                  className="cursor-pointer rounded-md p-2 text-(--destructive) transition-colors hover:bg-(--muted)"
                   title="Delete"
                 >
                   <Trash2 size={16} />

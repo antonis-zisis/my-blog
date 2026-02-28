@@ -3,25 +3,25 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 :root {
-  --background: #ffffff;
-  --foreground: #111827;
-  --muted: #f3f4f6;
-  --muted-foreground: #6b7280;
-  --border: #e5e7eb;
-  --primary: #2563eb;
+  --background: #f1f5f9; /* slate-100 */
+  --foreground: #475569; /* slate-600 */
+  --muted: #e2e8f0; /* slate-200 */
+  --muted-foreground: #64748b; /* slate-500 */
+  --border: #cbd5e1; /* slate-300 */
+  --primary: #991b1b; /* red-800 */
   --primary-foreground: #ffffff;
-  --destructive: #ef4444;
+  --destructive: #dc2626; /* red-600 */
 }
 
 .dark {
-  --background: #0f172a;
-  --foreground: #f1f5f9;
-  --muted: #1e293b;
-  --muted-foreground: #94a3b8;
-  --border: #334155;
-  --primary: #3b82f6;
-  --primary-foreground: #ffffff;
-  --destructive: #f87171;
+  --background: #0f172a; /* slate-900 */
+  --foreground: #e2e8f0; /* slate-200 */
+  --muted: #1e293b; /* slate-800 */
+  --muted-foreground: #94a3b8; /* slate-400 */
+  --border: #334155; /* slate-700 */
+  --primary: #5eead4; /* teal-300 */
+  --primary-foreground: #0f172a; /* slate-900 — dark text on teal */
+  --destructive: #f87171; /* red-400 */
 }
 
 body {

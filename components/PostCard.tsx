@@ -30,9 +30,7 @@ export default function PostCard({
             className="mb-4 h-48 w-full rounded-md object-cover"
           />
         )}
-        <h2 className="text-xl font-semibold transition-colors group-hover:text-(--primary)">
-          {title}
-        </h2>
+        <h2 className="text-xl font-semibold text-(--primary)">{title}</h2>
         <p className="mt-2 text-(--muted-foreground)">{excerpt}</p>
         <time className="mt-3 block text-sm text-(--muted-foreground)">
           {formatDate(createdAt)}
