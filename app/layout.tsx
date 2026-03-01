@@ -5,6 +5,7 @@ import { AuthProvider } from '@/lib/auth-context';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import FirebaseAnalytics from '@/components/FirebaseAnalytics';
+import UmamiAnalytics from '@/components/UmamiAnalytics';
 import './globals.css';
 
 const inter = Inter({
@@ -31,6 +32,7 @@ export default function RootLayout({
             <main className="mx-auto max-w-5xl px-4 py-8">{children}</main>
             <Footer />
             <FirebaseAnalytics />
+            <UmamiAnalytics />
           </AuthProvider>
         </ThemeProvider>
       </body>

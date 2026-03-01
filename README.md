@@ -15,6 +15,7 @@ A personal blog built with Next.js and Firebase. The blog owner signs in via Goo
 - **Editor:** TipTap (WYSIWYG)
 - **Dark mode:** next-themes
 - **Icons:** lucide-react
+- **Analytics:** Firebase Analytics + Umami
 - **Hosting:** Netlify
 
 ## Getting Started
@@ -39,13 +40,14 @@ A personal blog built with Next.js and Firebase. The blog owner signs in via Goo
    cp .env.sample .env
    ```
 
-   | Variable                 | Source                                                    |
-   | ------------------------ | --------------------------------------------------------- |
-   | `NEXT_PUBLIC_FIREBASE_*` | Firebase Console > Project Settings > General > Your apps |
-   | `NEXT_PUBLIC_ADMIN_UID`  | Firebase Console > Authentication > Users > your User UID |
-   | `FIREBASE_PROJECT_ID`    | Same as `NEXT_PUBLIC_FIREBASE_PROJECT_ID`                 |
-   | `FIREBASE_CLIENT_EMAIL`  | Service account JSON (`client_email` field)               |
-   | `FIREBASE_PRIVATE_KEY`   | Service account JSON (`private_key` field)                |
+   | Variable                       | Source                                                    |
+   | ------------------------------ | --------------------------------------------------------- |
+   | `NEXT_PUBLIC_FIREBASE_*`       | Firebase Console > Project Settings > General > Your apps |
+   | `NEXT_PUBLIC_ADMIN_UID`        | Firebase Console > Authentication > Users > your User UID |
+   | `FIREBASE_PROJECT_ID`          | Same as `NEXT_PUBLIC_FIREBASE_PROJECT_ID`                 |
+   | `FIREBASE_CLIENT_EMAIL`        | Service account JSON (`client_email` field)               |
+   | `FIREBASE_PRIVATE_KEY`         | Service account JSON (`private_key` field)                |
+   | `NEXT_PUBLIC_UMAMI_WEBSITE_ID` | Umami dashboard > Settings > Websites > your website ID   |
 
    To get the service account JSON: Firebase Console > Project Settings > Service accounts > Generate new private key.
 
@@ -97,7 +99,9 @@ components/
 ├── Navbar.tsx                  # Navigation + theme toggle
 ├── ThemeToggle.tsx             # Sun/moon toggle
 ├── AuthGuard.tsx               # Protects admin routes
-└── LoginButton.tsx             # Google sign-in button
+├── LoginButton.tsx             # Google sign-in button
+├── FirebaseAnalytics.tsx       # Firebase Analytics (admin-excluded)
+└── UmamiAnalytics.tsx          # Umami Analytics (admin-excluded)
 
 lib/
 ├── firebase.ts                 # Client SDK init
