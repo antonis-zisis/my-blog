@@ -14,6 +14,13 @@ interface PageProps {
   params: Promise<{ slug: string }>;
 }
 
+function toCloudinaryOGUrl(url: string) {
+  return url.replace(
+    '/image/upload/',
+    '/image/upload/w_1200,h_630,c_fill,q_100,f_png/'
+  );
+}
+
 export async function generateMetadata({
   params,
 }: PageProps): Promise<Metadata> {
@@ -28,7 +35,7 @@ export async function generateMetadata({
   const data = doc.data()!;
   const publishedTime = data.createdAt?.toDate().toISOString();
   const ogImages = data.coverImage
-    ? [{ url: data.coverImage, width: 1200, height: 630 }]
+    ? [{ url: toCloudinaryOGUrl(data.coverImage), width: 1200, height: 630 }]
     : [];
 
   return {
