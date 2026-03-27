@@ -24,6 +24,7 @@ export async function generateMetadata({
     return { title: 'Post Not Found' };
   }
 
+  const baseUrl = 'https://deploy-preview-2--az-my-blog.netlify.app';
   const data = doc.data()!;
   const publishedTime = data.createdAt?.toDate().toISOString();
   const ogImages = data.coverImage
@@ -34,14 +35,14 @@ export async function generateMetadata({
     title: `${data.title} | Blog by Antonis Zisis`,
     description: data.excerpt,
     alternates: {
-      canonical: `/posts/${slug}`,
+      canonical: `${baseUrl}/posts/${slug}`,
     },
     openGraph: {
       title: data.title,
       description: data.excerpt,
       type: 'article',
       publishedTime,
-      url: `/posts/${slug}`,
+      url: `${baseUrl}/posts/${slug}`,
       images: ogImages,
     },
     twitter: {
