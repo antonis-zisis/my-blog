@@ -16,6 +16,13 @@ export function readingTime(html: string): number {
   return Math.max(1, Math.round(words / 200));
 }
 
+export function toCloudinaryOGUrl(url: string): string {
+  return url.replace(
+    '/image/upload/',
+    '/image/upload/w_1200,h_630,c_fill,q_100,f_png/'
+  );
+}
+
 export function truncate(text: string, maxLength: number): string {
   if (text.length <= maxLength) {
     return text;

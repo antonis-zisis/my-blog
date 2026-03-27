@@ -114,7 +114,7 @@ lib/
 
 Cover images are optional per post. They are hosted on [Cloudinary](https://cloudinary.com) and referenced by URL in the admin editor.
 
-Images must be generated at exactly **768×256px**. This size is used for both the post card on the homepage and the cover on the post page itself.
+Images must be generated at exactly **1200×630px**. This size is used for both the post card on the homepage and the cover on the post page itself.
 
 ## Deployment
 

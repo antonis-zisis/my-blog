@@ -34,8 +34,13 @@ export default function PostCard({
           />
         )}
 
-        <h2 className="text-xl font-semibold text-(--primary)">{title}</h2>
-        <p className="mt-1 text-base text-(--muted-foreground)">{excerpt}</p>
+        <h2 className="font-serif text-xl font-semibold text-(--primary)">
+          {title}
+        </h2>
+
+        <p className="mt-1 font-serif text-base text-(--foreground)">
+          {excerpt}
+        </p>
 
         <div className="mt-4 flex items-center justify-end gap-2 text-xs text-(--muted-foreground)">
           <time>{formatDate(createdAt)}</time>

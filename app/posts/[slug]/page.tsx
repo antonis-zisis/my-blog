@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
 import { adminDb } from '@/lib/firebase-admin';
 import PostContent from '@/components/PostContent';
-import { formatDate, readingTime } from '@/lib/utils';
+import { formatDate, readingTime, toCloudinaryOGUrl } from '@/lib/utils';
 import type { Metadata } from 'next';
 
 export const dynamic = 'force-dynamic';
@@ -25,9 +25,32 @@ export async function generateMetadata({
   }
 
   const data = doc.data()!;
+  const publishedTime = data.createdAt?.toDate().toISOString();
+  const ogImages = data.coverImage
+    ? [{ url: toCloudinaryOGUrl(data.coverImage), width: 1200, height: 630 }]
+    : [];
+
   return {
     title: `${data.title} | Blog by Antonis Zisis`,
     description: data.excerpt,
+    alternates: {
+      canonical: `/posts/${slug}`,
+    },
+    openGraph: {
+      title: data.title,
+      description: data.excerpt,
+      type: 'article',
+      publishedTime,
+      authors: ['https://blog.antoniszisis.com'],
+      url: `/posts/${slug}`,
+      images: ogImages,
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: data.title,
+      description: data.excerpt,
+      images: data.coverImage ? [toCloudinaryOGUrl(data.coverImage)] : [],
+    },
   };
 }
 
@@ -54,8 +77,11 @@ export default async function PostPage({ params }: PageProps) {
       </Link>
 
       <header className="mb-8">
-        <h1 className="text-3xl font-bold text-(--primary)">{data.title}</h1>
-        <div className="mt-2 flex items-center gap-2 text-(--muted-foreground)">
+        <h1 className="font-serif text-2xl font-bold text-(--primary)">
+          {data.title}
+        </h1>
+
+        <div className="mt-2 flex items-center gap-2 font-serif text-sm text-(--muted-foreground)">
           <time>{formatDate(createdAt)}</time>
           <span>·</span>
           <span>{mins} min read</span>
@@ -66,8 +92,8 @@ export default async function PostPage({ params }: PageProps) {
         <Image
           src={data.coverImage}
           alt={data.title}
-          width={768}
-          height={256}
+          width={1200}
+          height={630}
           unoptimized
           loading="eager"
           className="mb-8 w-full rounded"
