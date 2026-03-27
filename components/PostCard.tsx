@@ -26,14 +26,16 @@ export default function PostCard({
           <Image
             src={coverImage}
             alt={title}
-            width={640}
-            height={192}
+            width={768}
+            height={256}
             unoptimized
-            className="mb-3 h-40 w-full rounded-md object-cover"
+            className="mb-3 w-full rounded"
           />
         )}
+
         <h2 className="text-xl font-semibold text-(--primary)">{title}</h2>
         <p className="mt-1 text-base text-(--muted-foreground)">{excerpt}</p>
+
         <div className="mt-4 flex items-center justify-end gap-2 text-xs text-(--muted-foreground)">
           <time>{formatDate(createdAt)}</time>
           <span>·</span>

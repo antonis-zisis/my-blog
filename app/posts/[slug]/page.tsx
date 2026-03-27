@@ -1,5 +1,7 @@
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
+import Link from 'next/link';
+import { ArrowLeft } from 'lucide-react';
 import { adminDb } from '@/lib/firebase-admin';
 import PostContent from '@/components/PostContent';
 import { formatDate, readingTime } from '@/lib/utils';
@@ -43,6 +45,14 @@ export default async function PostPage({ params }: PageProps) {
 
   return (
     <article>
+      <Link
+        href="/"
+        className="mb-8 inline-flex items-center gap-1 text-sm text-(--muted-foreground) transition-colors hover:text-(--primary)"
+      >
+        <ArrowLeft size={16} />
+        Back to posts
+      </Link>
+
       <header className="mb-8">
         <h1 className="text-3xl font-bold text-(--primary)">{data.title}</h1>
         <div className="mt-2 flex items-center gap-2 text-(--muted-foreground)">
@@ -59,7 +69,7 @@ export default async function PostPage({ params }: PageProps) {
           width={768}
           height={256}
           unoptimized
-          className="mb-8 h-64 w-full rounded-lg object-cover"
+          className="mb-8 w-full rounded"
         />
       )}
 
