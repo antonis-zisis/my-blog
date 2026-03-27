@@ -32,7 +32,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <AuthProvider>
             <Navbar />
-            <main className="mx-auto max-w-5xl px-4 py-8">{children}</main>
+            <main className="mx-auto max-w-3xl px-4 py-8">{children}</main>
             <Footer />
 
             <FirebaseAnalytics />
