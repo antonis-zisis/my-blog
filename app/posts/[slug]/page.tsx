@@ -9,6 +9,15 @@ import type { Metadata } from 'next';
 
 export const revalidate = 60;
 
+export async function generateStaticParams() {
+  const snapshot = await adminDb
+    .collection('posts')
+    .where('published', '==', true)
+    .get();
+
+  return snapshot.docs.map((doc) => ({ slug: doc.id }));
+}
+
 interface PageProps {
   params: Promise<{ slug: string }>;
 }
