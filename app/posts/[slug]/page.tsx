@@ -26,7 +26,9 @@ export async function generateMetadata({
 
   const data = doc.data()!;
   const publishedTime = data.createdAt?.toDate().toISOString();
-  const ogImages = data.coverImage ? [{ url: data.coverImage }] : [];
+  const ogImages = data.coverImage
+    ? [{ url: data.coverImage, width: 1200, height: 630 }]
+    : [];
 
   return {
     title: `${data.title} | Blog by Antonis Zisis`,
@@ -74,8 +76,11 @@ export default async function PostPage({ params }: PageProps) {
       </Link>
 
       <header className="mb-8">
-        <h1 className="text-3xl font-bold text-(--primary)">{data.title}</h1>
-        <div className="mt-2 flex items-center gap-2 text-(--muted-foreground)">
+        <h1 className="font-serif text-2xl font-bold text-(--primary)">
+          {data.title}
+        </h1>
+
+        <div className="mt-2 flex items-center gap-2 font-serif text-sm text-(--muted-foreground)">
           <time>{formatDate(createdAt)}</time>
           <span>·</span>
           <span>{mins} min read</span>
@@ -86,8 +91,8 @@ export default async function PostPage({ params }: PageProps) {
         <Image
           src={data.coverImage}
           alt={data.title}
-          width={768}
-          height={256}
+          width={1200}
+          height={630}
           unoptimized
           loading="eager"
           className="mb-8 w-full rounded"

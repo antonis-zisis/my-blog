@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
+import { Inter, Source_Serif_4 } from 'next/font/google';
 import { ThemeProvider } from 'next-themes';
 import type { ReactNode } from 'react';
 import { AuthProvider } from '@/lib/auth-context';
@@ -12,6 +12,14 @@ import './globals.css';
 const inter = Inter({
   subsets: ['latin'],
   display: 'swap',
+});
+
+const sourceSerif4 = Source_Serif_4({
+  subsets: ['latin'],
+  display: 'swap',
+  style: ['normal', 'italic'],
+  weight: ['300', '400', '600', '700'],
+  variable: '--font-serif',
 });
 
 export const metadata: Metadata = {
@@ -28,7 +36,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={inter.className}>
+      <body className={`${inter.className} ${sourceSerif4.variable}`}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <AuthProvider>
             <Navbar />
