@@ -11,8 +11,8 @@ export default function Navbar() {
   return (
     <header className="shadow">
       <nav className="mx-auto flex max-w-3xl items-center justify-between px-4 py-4">
-        <Link href="/" className="text-xl font-bold text-(--primary)">
-          Blog by Antonis Zisis
+        <Link href="/" className="text-lg text-(--primary)">
+          Blog by <span className="font-bold">Antonis Zisis</span>
         </Link>
 
         <div className="flex items-center gap-2">
