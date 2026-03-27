@@ -19,6 +19,7 @@ export default function NewPostPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
     if (!user || !title || !content) {
       return;
     }
@@ -61,6 +62,7 @@ export default function NewPostPage() {
       <form onSubmit={handleSubmit} className="space-y-6">
         <div>
           <label className="mb-1.5 block text-sm font-medium">Title</label>
+
           <input
             type="text"
             value={title}
@@ -75,10 +77,11 @@ export default function NewPostPage() {
           <label className="mb-1.5 block text-sm font-medium">
             Excerpt (optional)
           </label>
+
           <textarea
             value={excerpt}
             onChange={(e) => setExcerpt(e.target.value)}
-            rows={2}
+            rows={4}
             className="w-full rounded-lg border border-(--border) bg-transparent px-4 py-2.5 focus:border-(--primary) focus:outline-none"
             placeholder="Brief description (auto-generated if empty)"
           />
@@ -88,6 +91,7 @@ export default function NewPostPage() {
           <label className="mb-1.5 block text-sm font-medium">
             Cover Image URL (optional)
           </label>
+
           <input
             type="url"
             value={coverImage}
