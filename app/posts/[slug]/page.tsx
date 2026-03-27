@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
 import { adminDb } from '@/lib/firebase-admin';
 import PostContent from '@/components/PostContent';
-import { formatDate, readingTime } from '@/lib/utils';
+import { formatDate, readingTime, toCloudinaryOGUrl } from '@/lib/utils';
 import type { Metadata } from 'next';
 
 export const dynamic = 'force-dynamic';
@@ -12,15 +12,6 @@ export const revalidate = 60;
 
 interface PageProps {
   params: Promise<{ slug: string }>;
-}
-
-function toCloudinaryOGUrl(url: string) {
-  return (
-    url.replace(
-      '/image/upload/',
-      '/image/upload/w_1200,h_630,c_fill,q_100,f_png/'
-    ) + '?v=2'
-  );
 }
 
 export async function generateMetadata({
@@ -33,7 +24,6 @@ export async function generateMetadata({
     return { title: 'Post Not Found' };
   }
 
-  const baseUrl = 'https://deploy-preview-2--az-my-blog.netlify.app';
   const data = doc.data()!;
   const publishedTime = data.createdAt?.toDate().toISOString();
   const ogImages = data.coverImage
@@ -44,14 +34,15 @@ export async function generateMetadata({
     title: `${data.title} | Blog by Antonis Zisis`,
     description: data.excerpt,
     alternates: {
-      canonical: `${baseUrl}/posts/${slug}`,
+      canonical: `/posts/${slug}`,
     },
     openGraph: {
       title: data.title,
       description: data.excerpt,
       type: 'article',
       publishedTime,
-      url: `${baseUrl}/posts/${slug}`,
+      authors: ['https://blog.antoniszisis.com'],
+      url: `/posts/${slug}`,
       images: ogImages,
     },
     twitter: {
