@@ -15,9 +15,11 @@ interface PageProps {
 }
 
 function toCloudinaryOGUrl(url: string) {
-  return url.replace(
-    '/image/upload/',
-    '/image/upload/w_1200,h_630,c_fill,q_100,f_png/'
+  return (
+    url.replace(
+      '/image/upload/',
+      '/image/upload/w_1200,h_630,c_fill,q_100,f_png/'
+    ) + '?v=2'
   );
 }
 
@@ -56,7 +58,7 @@ export async function generateMetadata({
       card: 'summary_large_image',
       title: data.title,
       description: data.excerpt,
-      images: data.coverImage ? [data.coverImage] : [],
+      images: data.coverImage ? [toCloudinaryOGUrl(data.coverImage)] : [],
     },
   };
 }
