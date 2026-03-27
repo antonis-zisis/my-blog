@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import { ThemeProvider } from 'next-themes';
+import type { ReactNode } from 'react';
 import { AuthProvider } from '@/lib/auth-context';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
@@ -14,15 +15,17 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://blog.antoniszisis.com'),
   title: 'Blog by Antonis Zisis',
   description: 'Antonis Zisis personal blog.',
+  openGraph: {
+    siteName: 'Blog by Antonis Zisis',
+    locale: 'en_US',
+    type: 'website',
+  },
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
@@ -31,6 +34,7 @@ export default function RootLayout({
             <Navbar />
             <main className="mx-auto max-w-5xl px-4 py-8">{children}</main>
             <Footer />
+
             <FirebaseAnalytics />
             <UmamiAnalytics />
           </AuthProvider>

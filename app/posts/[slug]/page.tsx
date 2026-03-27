@@ -25,9 +25,29 @@ export async function generateMetadata({
   }
 
   const data = doc.data()!;
+  const publishedTime = data.createdAt?.toDate().toISOString();
+  const ogImages = data.coverImage ? [{ url: data.coverImage }] : [];
+
   return {
     title: `${data.title} | Blog by Antonis Zisis`,
     description: data.excerpt,
+    alternates: {
+      canonical: `/posts/${slug}`,
+    },
+    openGraph: {
+      title: data.title,
+      description: data.excerpt,
+      type: 'article',
+      publishedTime,
+      url: `/posts/${slug}`,
+      images: ogImages,
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: data.title,
+      description: data.excerpt,
+      images: data.coverImage ? [data.coverImage] : [],
+    },
   };
 }
 
