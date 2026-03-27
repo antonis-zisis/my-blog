@@ -110,9 +110,15 @@ lib/
 └── utils.ts                    # Slug generation, date formatting
 ```
 
+## Cover Images
+
+Cover images are optional per post. They are hosted on [Cloudinary](https://cloudinary.com) and referenced by URL in the admin editor.
+
+Images must be generated at exactly **768×256px**. This size is used for both the post card on the homepage and the cover on the post page itself.
+
 ## Deployment
 
-Configured for Netlify via `netlify.toml`. Connect your repo in the Netlify dashboard and set the environment variables from `.env` in the Netlify site settings.
+Configured for Netlify via `netlify.toml`. Connect your repo in the Netlify dashboard and set the environment variables from `.env` in the Netlify site settings. Deploys trigger automatically when changes are merged into `main`.
 
 ## License
 
