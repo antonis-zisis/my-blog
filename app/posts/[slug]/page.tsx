@@ -69,6 +69,7 @@ export default async function PostPage({ params }: PageProps) {
           width={768}
           height={256}
           unoptimized
+          loading="eager"
           className="mb-8 w-full rounded"
         />
       )}

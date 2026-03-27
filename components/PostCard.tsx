@@ -29,6 +29,7 @@ export default function PostCard({
             width={768}
             height={256}
             unoptimized
+            loading="eager"
             className="mb-3 w-full rounded"
           />
         )}
