@@ -117,7 +117,7 @@ Netlify runs Next.js server components via serverless functions. On a low-traffi
 **How this is solved:** all public-facing pages are fully static — pre-rendered at build time and served directly from Netlify's CDN. No serverless function is involved when navigating between pages, so cold starts don't affect visitors.
 
 - `app/page.tsx` — no `revalidate`, no `force-dynamic` → fully static, served from CDN
-- `app/posts/[slug]/page.tsx` — `generateStaticParams` pre-renders all published posts at build time; `revalidate = 60` acts as a fallback safety net
+- `app/posts/[slug]/page.tsx` — `generateStaticParams` pre-renders all published posts at build time; no time-based revalidation, content is updated only via `revalidatePath`
 
 Since static pages don't re-fetch on every request, content is kept fresh via **on-demand revalidation**: every API route that mutates data calls `revalidatePath()` from `next/cache`, which tells Next.js to regenerate the affected static pages immediately.
 
