@@ -2,8 +2,6 @@ import { adminDb } from '@/lib/firebase-admin';
 import PostCard from '@/components/PostCard';
 import { readingTime } from '@/lib/utils';
 
-export const revalidate = 60;
-
 export default async function HomePage() {
   const snapshot = await adminDb
     .collection('posts')

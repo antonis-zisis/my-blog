@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import { adminDb, adminAuth } from '@/lib/firebase-admin';
 
 async function verifyAdmin(request: NextRequest): Promise<boolean> {
@@ -27,7 +28,6 @@ export async function GET(
 
   const data = doc.data()!;
 
-  // If not published, require admin auth
   if (!data.published) {
     const isAdmin = await verifyAdmin(request);
     if (!isAdmin) {
@@ -85,6 +85,9 @@ export async function PUT(
 
   await adminDb.collection('posts').doc(slug).update(updates);
 
+  revalidatePath('/');
+  revalidatePath(`/posts/${slug}`);
+
   return NextResponse.json({ slug });
 }
 
@@ -99,6 +102,9 @@ export async function DELETE(
 
   const { slug } = await params;
   await adminDb.collection('posts').doc(slug).delete();
+
+  revalidatePath('/');
+  revalidatePath(`/posts/${slug}`);
 
   return NextResponse.json({ success: true });
 }
