@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import { adminDb, adminAuth } from '@/lib/firebase-admin';
 import { generateSlug } from '@/lib/utils';
 
@@ -78,6 +79,9 @@ export async function POST(request: NextRequest) {
       updatedAt: now,
       authorId: process.env.NEXT_PUBLIC_ADMIN_UID,
     });
+
+  revalidatePath('/');
+  revalidatePath(`/posts/${slug}`);
 
   return NextResponse.json({ slug }, { status: 201 });
 }

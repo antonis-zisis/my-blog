@@ -110,6 +110,25 @@ lib/
 └── utils.ts                    # Slug generation, date formatting
 ```
 
+## Caching and cold starts
+
+Netlify runs Next.js server components via serverless functions. On a low-traffic blog these functions go cold between visits — when cold, they take several seconds to wake up. During that time, client-side navigation (clicking a link) appears completely frozen with no feedback.
+
+**How this is solved:** all public-facing pages are fully static — pre-rendered at build time and served directly from Netlify's CDN. No serverless function is involved when navigating between pages, so cold starts don't affect visitors.
+
+- `app/page.tsx` — no `revalidate`, no `force-dynamic` → fully static, served from CDN
+- `app/posts/[slug]/page.tsx` — `generateStaticParams` pre-renders all published posts at build time; no time-based revalidation, content is updated only via `revalidatePath`
+
+Since static pages don't re-fetch on every request, content is kept fresh via **on-demand revalidation**: every API route that mutates data calls `revalidatePath()` from `next/cache`, which tells Next.js to regenerate the affected static pages immediately.
+
+| Admin action | Pages regenerated       |
+| ------------ | ----------------------- |
+| Create post  | `/` and `/posts/[slug]` |
+| Update post  | `/` and `/posts/[slug]` |
+| Delete post  | `/` and `/posts/[slug]` |
+
+**One thing to expect:** after saving or publishing, the static cache for those pages is purged. The next person to visit (usually you) triggers a one-time regeneration and may see a brief loading spinner. All subsequent visitors get the CDN-cached version instantly.
+
 ## Cover Images
 
 Cover images are optional per post. They are hosted on [Cloudinary](https://cloudinary.com) and referenced by URL in the admin editor.

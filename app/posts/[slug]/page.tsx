@@ -7,8 +7,14 @@ import PostContent from '@/components/PostContent';
 import { formatDate, readingTime, toCloudinaryOGUrl } from '@/lib/utils';
 import type { Metadata } from 'next';
 
-export const dynamic = 'force-dynamic';
-export const revalidate = 60;
+export async function generateStaticParams() {
+  const snapshot = await adminDb
+    .collection('posts')
+    .where('published', '==', true)
+    .get();
+
+  return snapshot.docs.map((doc) => ({ slug: doc.id }));
+}
 
 interface PageProps {
   params: Promise<{ slug: string }>;
