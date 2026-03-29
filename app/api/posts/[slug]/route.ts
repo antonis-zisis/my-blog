@@ -1,89 +1,48 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { revalidatePath } from 'next/cache';
-import { adminDb, adminAuth } from '@/lib/firebase-admin';
-
-async function verifyAdmin(request: NextRequest): Promise<boolean> {
-  const token = request.headers.get('authorization')?.split('Bearer ')[1];
-  if (!token) {
-    return false;
-  }
-  try {
-    const decoded = await adminAuth.verifyIdToken(token);
-    return decoded.uid === process.env.NEXT_PUBLIC_ADMIN_UID;
-  } catch {
-    return false;
-  }
-}
+import { assertAdmin } from '@/lib/auth-utils';
+import { getPost, updatePost, deletePost } from '@/lib/posts-repository';
 
 export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ slug: string }> }
 ) {
   const { slug } = await params;
-  const doc = await adminDb.collection('posts').doc(slug).get();
+  const post = await getPost(slug);
 
-  if (!doc.exists) {
+  if (!post) {
     return NextResponse.json({ error: 'Not found' }, { status: 404 });
   }
 
-  const data = doc.data()!;
-
-  if (!data.published) {
-    const isAdmin = await verifyAdmin(request);
-    if (!isAdmin) {
+  if (!post.published) {
+    const authError = await assertAdmin(request);
+    if (authError) {
       return NextResponse.json({ error: 'Not found' }, { status: 404 });
     }
   }
 
-  return NextResponse.json({
-    slug: doc.id,
-    title: data.title,
-    content: data.content,
-    excerpt: data.excerpt,
-    coverImage: data.coverImage || null,
-    published: data.published,
-    createdAt: data.createdAt?.toDate().toISOString(),
-    updatedAt: data.updatedAt?.toDate().toISOString(),
-  });
+  return NextResponse.json(post);
 }
 
 export async function PUT(
   request: NextRequest,
   { params }: { params: Promise<{ slug: string }> }
 ) {
-  const isAdmin = await verifyAdmin(request);
-  if (!isAdmin) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  const authError = await assertAdmin(request);
+  if (authError) {
+    return authError;
   }
 
   const { slug } = await params;
-  const doc = await adminDb.collection('posts').doc(slug).get();
+  const post = await getPost(slug);
 
-  if (!doc.exists) {
+  if (!post) {
     return NextResponse.json({ error: 'Not found' }, { status: 404 });
   }
 
-  const body = await request.json();
-  const { title, content, excerpt, coverImage, published } = body;
-
-  const updates: Record<string, unknown> = { updatedAt: new Date() };
-  if (title !== undefined) {
-    updates.title = title;
-  }
-  if (content !== undefined) {
-    updates.content = content;
-  }
-  if (excerpt !== undefined) {
-    updates.excerpt = excerpt;
-  }
-  if (coverImage !== undefined) {
-    updates.coverImage = coverImage;
-  }
-  if (published !== undefined) {
-    updates.published = published;
-  }
-
-  await adminDb.collection('posts').doc(slug).update(updates);
+  const { title, content, excerpt, coverImage, published } =
+    await request.json();
+  await updatePost(slug, { title, content, excerpt, coverImage, published });
 
   revalidatePath('/');
   revalidatePath(`/posts/${slug}`);
@@ -95,13 +54,13 @@ export async function DELETE(
   request: NextRequest,
   { params }: { params: Promise<{ slug: string }> }
 ) {
-  const isAdmin = await verifyAdmin(request);
-  if (!isAdmin) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  const authError = await assertAdmin(request);
+  if (authError) {
+    return authError;
   }
 
   const { slug } = await params;
-  await adminDb.collection('posts').doc(slug).delete();
+  await deletePost(slug);
 
   revalidatePath('/');
   revalidatePath(`/posts/${slug}`);

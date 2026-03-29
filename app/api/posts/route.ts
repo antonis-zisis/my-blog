@@ -1,44 +1,22 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { revalidatePath } from 'next/cache';
-import { adminDb, adminAuth } from '@/lib/firebase-admin';
 import { generateSlug } from '@/lib/utils';
+import { assertAdmin } from '@/lib/auth-utils';
+import {
+  getPublishedPosts,
+  postExists,
+  createPost,
+} from '@/lib/posts-repository';
 
 export async function GET() {
-  const snapshot = await adminDb
-    .collection('posts')
-    .where('published', '==', true)
-    .orderBy('createdAt', 'desc')
-    .get();
-
-  const posts = snapshot.docs.map((doc) => {
-    const data = doc.data();
-    return {
-      slug: doc.id,
-      title: data.title,
-      excerpt: data.excerpt,
-      coverImage: data.coverImage || null,
-      published: data.published,
-      createdAt: data.createdAt?.toDate().toISOString(),
-      updatedAt: data.updatedAt?.toDate().toISOString(),
-    };
-  });
-
+  const posts = await getPublishedPosts();
   return NextResponse.json(posts);
 }
 
 export async function POST(request: NextRequest) {
-  const token = request.headers.get('authorization')?.split('Bearer ')[1];
-  if (!token) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  }
-
-  try {
-    const decoded = await adminAuth.verifyIdToken(token);
-    if (decoded.uid !== process.env.NEXT_PUBLIC_ADMIN_UID) {
-      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
-    }
-  } catch {
-    return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
+  const authError = await assertAdmin(request);
+  if (authError) {
+    return authError;
   }
 
   const body = await request.json();
@@ -52,10 +30,8 @@ export async function POST(request: NextRequest) {
   }
 
   const slug = generateSlug(title);
-  const now = new Date();
 
-  const existing = await adminDb.collection('posts').doc(slug).get();
-  if (existing.exists) {
+  if (await postExists(slug)) {
     return NextResponse.json(
       {
         error:
@@ -65,20 +41,7 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  await adminDb
-    .collection('posts')
-    .doc(slug)
-    .set({
-      slug,
-      title,
-      content,
-      excerpt: excerpt || '',
-      coverImage: coverImage || null,
-      published: published ?? false,
-      createdAt: now,
-      updatedAt: now,
-      authorId: process.env.NEXT_PUBLIC_ADMIN_UID,
-    });
+  await createPost(slug, { title, content, excerpt, coverImage, published });
 
   revalidatePath('/');
   revalidatePath(`/posts/${slug}`);

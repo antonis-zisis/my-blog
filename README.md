@@ -2,9 +2,7 @@
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/ef7d0975-f273-4a3a-ab21-4b07ed2422f5/deploy-status)](https://app.netlify.com/projects/az-my-blog/deploys)
 
-A personal blog built with Next.js and Firebase. The blog owner signs in via Google to create, edit, and delete posts using a rich text editor. Visitors can read posts without logging in and toggle between dark and light mode.
-
-[https://blog.antoniszisis.com/](https://blog.antoniszisis.com/)
+Personal blog at [blog.antoniszisis.com](https://blog.antoniszisis.com)
 
 ## Tech Stack
 
@@ -16,52 +14,7 @@ A personal blog built with Next.js and Firebase. The blog owner signs in via Goo
 - **Dark mode:** next-themes
 - **Icons:** lucide-react
 - **Analytics:** Firebase Analytics + Umami
-- **Hosting:** Netlify
-
-## Getting Started
-
-### Prerequisites
-
-- Node.js 24
-- pnpm
-- A Firebase project with Firestore and Authentication (Google provider) enabled
-
-### Setup
-
-1. Clone the repo and install dependencies:
-
-   ```bash
-   pnpm install
-   ```
-
-2. Copy the sample env file and fill in your Firebase credentials:
-
-   ```bash
-   cp .env.sample .env
-   ```
-
-   | Variable                       | Source                                                    |
-   | ------------------------------ | --------------------------------------------------------- |
-   | `NEXT_PUBLIC_FIREBASE_*`       | Firebase Console > Project Settings > General > Your apps |
-   | `NEXT_PUBLIC_ADMIN_UID`        | Firebase Console > Authentication > Users > your User UID |
-   | `FIREBASE_PROJECT_ID`          | Same as `NEXT_PUBLIC_FIREBASE_PROJECT_ID`                 |
-   | `FIREBASE_CLIENT_EMAIL`        | Service account JSON (`client_email` field)               |
-   | `FIREBASE_PRIVATE_KEY`         | Service account JSON (`private_key` field)                |
-   | `NEXT_PUBLIC_UMAMI_WEBSITE_ID` | Umami dashboard > Settings > Websites > your website ID   |
-
-   To get the service account JSON: Firebase Console > Project Settings > Service accounts > Generate new private key.
-
-3. Create the required Firestore composite index:
-
-   The app queries posts filtered by `published` and ordered by `createdAt`. Firestore will prompt you with a link to create this index on first request — just click it.
-
-4. Start the dev server:
-
-   ```bash
-   pnpm dev
-   ```
-
-   Open [http://localhost:3000](http://localhost:3000).
+- **Hosting:** Netlify, Cloudinary (Images)
 
 ## Scripts
 
@@ -93,21 +46,26 @@ app/
     └── [slug]/route.ts         # GET, PUT, DELETE
 
 components/
-├── Editor.tsx                  # TipTap editor with toolbar
+├── Analytics.tsx               # Combined Firebase + Umami analytics
+├── Editor.tsx                  # TipTap editor
+├── EditorToolbar.tsx           # TipTap toolbar buttons
 ├── PostCard.tsx                # Post preview card
 ├── PostContent.tsx             # Renders sanitized HTML
 ├── Navbar.tsx                  # Navigation + theme toggle
 ├── ThemeToggle.tsx             # Sun/moon toggle
 ├── AuthGuard.tsx               # Protects admin routes
 ├── LoginButton.tsx             # Google sign-in button
-├── FirebaseAnalytics.tsx       # Firebase Analytics (admin-excluded)
-└── UmamiAnalytics.tsx          # Umami Analytics (admin-excluded)
+├── ConfirmModal.tsx            # Delete confirmation dialog
+└── Footer.tsx                  # Footer with social links
 
 lib/
 ├── firebase.ts                 # Client SDK init
 ├── firebase-admin.ts           # Admin SDK init (server-only)
 ├── auth-context.tsx            # React context for auth state
-└── utils.ts                    # Slug generation, date formatting
+├── auth-utils.ts               # assertAdmin helper for API routes
+├── cloudinary.ts               # Cloudinary URL transformation
+├── posts-repository.ts         # Firestore data access layer
+└── utils.ts                    # Slug generation, date formatting, reading time
 ```
 
 ## Caching and cold starts
@@ -127,7 +85,7 @@ Since static pages don't re-fetch on every request, content is kept fresh via **
 | Update post  | `/` and `/posts/[slug]` |
 | Delete post  | `/` and `/posts/[slug]` |
 
-**One thing to expect:** after saving or publishing, the static cache for those pages is purged. The next person to visit (usually you) triggers a one-time regeneration and may see a brief loading spinner. All subsequent visitors get the CDN-cached version instantly.
+**One thing to expect:** after saving or publishing, the static cache for those pages is purged. The next person to visit (usually myself) triggers a one-time regeneration and may see a brief loading spinner. All subsequent visitors get the CDN-cached version instantly.
 
 ## Cover Images
 
@@ -135,10 +93,6 @@ Cover images are optional per post. They are hosted on [Cloudinary](https://clou
 
 Images must be generated at exactly **1200×630px**. This size is used for both the post card on the homepage and the cover on the post page itself.
 
-## Deployment
-
-Configured for Netlify via `netlify.toml`. Connect your repo in the Netlify dashboard and set the environment variables from `.env` in the Netlify site settings. Deploys trigger automatically when changes are merged into `main`.
-
 ## License
 
-ISC
+© 2026 Antonis Zisis. All rights reserved. This repository is public for reference and transparency only — no permission is granted to copy, modify, or redistribute the code.

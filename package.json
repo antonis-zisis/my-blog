@@ -1,9 +1,10 @@
 {
   "name": "my-blog",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "private": true,
+  "author": "Antonis Zisis",
   "description": "Antonis Zisis personal blog.",
-  "main": "index.js",
+  "license": "UNLICENSED",
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
@@ -12,9 +13,6 @@
     "format": "prettier --write .",
     "prepare": "husky"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "dependencies": {
     "@tailwindcss/postcss": "^4.2.1",
     "@tiptap/extension-code-block-lowlight": "^3.20.0",
