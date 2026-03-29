@@ -1,25 +1,8 @@
-import { adminDb } from '@/lib/firebase-admin';
 import PostCard from '@/components/PostCard';
-import { readingTime } from '@/lib/utils';
+import { getPublishedPosts } from '@/lib/posts-repository';
 
 export default async function HomePage() {
-  const snapshot = await adminDb
-    .collection('posts')
-    .where('published', '==', true)
-    .orderBy('createdAt', 'desc')
-    .get();
-
-  const posts = snapshot.docs.map((doc) => {
-    const data = doc.data();
-    return {
-      slug: doc.id,
-      title: data.title as string,
-      excerpt: data.excerpt as string,
-      coverImage: (data.coverImage as string) || null,
-      createdAt: data.createdAt?.toDate().toISOString() as string,
-      readingTime: readingTime(data.content ?? ''),
-    };
-  });
+  const posts = await getPublishedPosts();
 
   return (
     <div>

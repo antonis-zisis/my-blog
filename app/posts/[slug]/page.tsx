@@ -2,18 +2,15 @@ import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
-import { adminDb } from '@/lib/firebase-admin';
 import PostContent from '@/components/PostContent';
-import { formatDate, readingTime, toCloudinaryOGUrl } from '@/lib/utils';
+import { formatDate, readingTime } from '@/lib/utils';
+import { toCloudinaryOGUrl } from '@/lib/cloudinary';
+import { getPublishedPosts, getPost } from '@/lib/posts-repository';
 import type { Metadata } from 'next';
 
 export async function generateStaticParams() {
-  const snapshot = await adminDb
-    .collection('posts')
-    .where('published', '==', true)
-    .get();
-
-  return snapshot.docs.map((doc) => ({ slug: doc.id }));
+  const posts = await getPublishedPosts();
+  return posts.map((post) => ({ slug: post.slug }));
 }
 
 interface PageProps {
@@ -24,27 +21,26 @@ export async function generateMetadata({
   params,
 }: PageProps): Promise<Metadata> {
   const { slug } = await params;
-  const doc = await adminDb.collection('posts').doc(slug).get();
+  const post = await getPost(slug);
 
-  if (!doc.exists) {
+  if (!post) {
     return { title: 'Post Not Found' };
   }
 
-  const data = doc.data()!;
-  const publishedTime = data.createdAt?.toDate().toISOString();
-  const ogImages = data.coverImage
-    ? [{ url: toCloudinaryOGUrl(data.coverImage), width: 1200, height: 630 }]
+  const publishedTime = post.createdAt;
+  const ogImages = post.coverImage
+    ? [{ url: toCloudinaryOGUrl(post.coverImage), width: 1200, height: 630 }]
     : [];
 
   return {
-    title: `${data.title} | Blog by Antonis Zisis`,
-    description: data.excerpt,
+    title: `${post.title} | Blog by Antonis Zisis`,
+    description: post.excerpt,
     alternates: {
       canonical: `/posts/${slug}`,
     },
     openGraph: {
-      title: data.title,
-      description: data.excerpt,
+      title: post.title,
+      description: post.excerpt,
       type: 'article',
       publishedTime,
       authors: ['https://blog.antoniszisis.com'],
@@ -53,24 +49,22 @@ export async function generateMetadata({
     },
     twitter: {
       card: 'summary_large_image',
-      title: data.title,
-      description: data.excerpt,
-      images: data.coverImage ? [toCloudinaryOGUrl(data.coverImage)] : [],
+      title: post.title,
+      description: post.excerpt,
+      images: post.coverImage ? [toCloudinaryOGUrl(post.coverImage)] : [],
     },
   };
 }
 
 export default async function PostPage({ params }: PageProps) {
   const { slug } = await params;
-  const doc = await adminDb.collection('posts').doc(slug).get();
+  const post = await getPost(slug);
 
-  if (!doc.exists || !doc.data()?.published) {
+  if (!post || !post.published) {
     notFound();
   }
 
-  const data = doc.data()!;
-  const createdAt = data.createdAt?.toDate().toISOString();
-  const mins = readingTime(data.content ?? '');
+  const mins = readingTime(post.content);
 
   return (
     <article>
@@ -84,20 +78,20 @@ export default async function PostPage({ params }: PageProps) {
 
       <header className="mb-8">
         <h1 className="font-serif text-2xl font-bold text-(--primary)">
-          {data.title}
+          {post.title}
         </h1>
 
         <div className="mt-2 flex items-center gap-2 font-serif text-sm text-(--muted-foreground)">
-          <time>{formatDate(createdAt)}</time>
+          <time>{formatDate(post.createdAt)}</time>
           <span>·</span>
           <span>{mins} min read</span>
         </div>
       </header>
 
-      {data.coverImage && (
+      {post.coverImage && (
         <Image
-          src={data.coverImage}
-          alt={data.title}
+          src={post.coverImage}
+          alt={post.title}
           width={1200}
           height={630}
           unoptimized
@@ -106,7 +100,7 @@ export default async function PostPage({ params }: PageProps) {
         />
       )}
 
-      <PostContent content={data.content} />
+      <PostContent content={post.content} />
     </article>
   );
 }

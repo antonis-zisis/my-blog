@@ -5,8 +5,7 @@ import type { ReactNode } from 'react';
 import { AuthProvider } from '@/lib/auth-context';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import FirebaseAnalytics from '@/components/FirebaseAnalytics';
-import UmamiAnalytics from '@/components/UmamiAnalytics';
+import Analytics from '@/components/Analytics';
 import './globals.css';
 
 const inter = Inter({
@@ -43,8 +42,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             <main className="mx-auto max-w-3xl px-4 py-8">{children}</main>
             <Footer />
 
-            <FirebaseAnalytics />
-            <UmamiAnalytics />
+            <Analytics />
           </AuthProvider>
         </ThemeProvider>
       </body>
