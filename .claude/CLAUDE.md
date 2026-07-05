@@ -21,17 +21,21 @@ Always use `pnpm`. Never use `npm` or `yarn`.
 
 ## Architecture
 
+### Layout
+
+- All application code lives under `src/` (`src/app`, `src/components`, `src/lib`). The `@/*` import alias maps to `./src/*`.
+
 ### Data flow
 
-- **Public pages** (`app/page.tsx`, `app/posts/[slug]/page.tsx`) — server components that call the Admin SDK directly. No API routes involved.
-- **Admin pages** (`app/admin/**`) — client components that call API routes with a Firebase ID token in the `Authorization: Bearer <token>` header.
-- **API routes** (`app/api/posts/**`) — call `assertAdmin()` from `lib/auth-utils.ts` before any mutation. Returns `NextResponse | null` (null = authorised).
+- **Public pages** (`src/app/page.tsx`, `src/app/posts/[slug]/page.tsx`) — server components that call the Admin SDK directly. No API routes involved.
+- **Admin pages** (`src/app/admin/**`) — client components that call API routes with a Firebase ID token in the `Authorization: Bearer <token>` header.
+- **API routes** (`src/app/api/posts/**`) — call `assertAdmin()` from `src/lib/auth-utils.ts` before any mutation. Returns `NextResponse | null` (null = authorised).
 
 ### Firestore
 
 - Slug is the Firestore document ID (`posts/{slug}`). No separate slug field needed for lookups.
-- All Firestore access goes through `lib/posts-repository.ts`. Do not import `adminDb` directly in pages or API routes.
-- Firebase client SDK (`lib/firebase.ts`) and Admin SDK (`lib/firebase-admin.ts`) both use Proxy objects for lazy initialisation — this prevents build-time crashes when env vars are absent.
+- All Firestore access goes through `src/lib/posts-repository.ts`. Do not import `adminDb` directly in pages or API routes.
+- Firebase client SDK (`src/lib/firebase.ts`) and Admin SDK (`src/lib/firebase-admin.ts`) both use Proxy objects for lazy initialisation — this prevents build-time crashes when env vars are absent.
 
 ### Caching
 
@@ -41,11 +45,11 @@ Always use `pnpm`. Never use `npm` or `yarn`.
 
 ### Analytics
 
-- `components/Analytics.tsx` handles both Firebase Analytics and Umami.
+- `src/components/Analytics.tsx` handles both Firebase Analytics and Umami.
 - Both are disabled for the admin user — do not split them back into separate components.
 
 ## Key constraints
 
 - `package.json` has no `"type"` field — removing it fixed Turbopack ESM errors. Do not add it back.
 - Cover images must be 1200×630px. They are hosted on Cloudinary and referenced by URL.
-- `lib/firebase-admin.ts` and `lib/auth-utils.ts` are server-only — they import `server-only`.
+- `src/lib/firebase-admin.ts` and `src/lib/auth-utils.ts` are server-only — they import `server-only`.
