@@ -11,5 +11,23 @@
         ]
       }
     ]
+  },
+  "permissions": {
+    "allow": [
+      "Bash(pnpm *)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git status:*)",
+      "Bash(git diff:*)",
+      "Bash(cat:*)",
+      "Bash(ls:*)",
+      "Edit(src/**)"
+    ],
+    "deny": [
+      "Bash(rm *)",
+      "Bash(rmdir *)",
+      "Read(**/.env)",
+      "Read(**/.env.gpg)"
+    ]
   }
 }

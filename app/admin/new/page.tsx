@@ -17,8 +17,8 @@ export default function NewPostPage() {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
 
     if (!user || !title || !content) {
       return;
@@ -66,7 +66,7 @@ export default function NewPostPage() {
           <input
             type="text"
             value={title}
-            onChange={(e) => setTitle(e.target.value)}
+            onChange={(event) => setTitle(event.target.value)}
             required
             className="w-full rounded-lg border border-(--border) bg-transparent px-4 py-2.5 focus:border-(--primary) focus:outline-none"
             placeholder="Post title"
@@ -80,7 +80,7 @@ export default function NewPostPage() {
 
           <textarea
             value={excerpt}
-            onChange={(e) => setExcerpt(e.target.value)}
+            onChange={(event) => setExcerpt(event.target.value)}
             rows={4}
             className="w-full rounded-lg border border-(--border) bg-transparent px-4 py-2.5 focus:border-(--primary) focus:outline-none"
             placeholder="Brief description (auto-generated if empty)"
@@ -95,7 +95,7 @@ export default function NewPostPage() {
           <input
             type="url"
             value={coverImage}
-            onChange={(e) => setCoverImage(e.target.value)}
+            onChange={(event) => setCoverImage(event.target.value)}
             className="w-full rounded-lg border border-(--border) bg-transparent px-4 py-2.5 focus:border-(--primary) focus:outline-none"
             placeholder="https://example.com/image.jpg"
           />
@@ -113,7 +113,7 @@ export default function NewPostPage() {
             <input
               type="checkbox"
               checked={published}
-              onChange={(e) => setPublished(e.target.checked)}
+              onChange={(event) => setPublished(event.target.checked)}
               className="h-4 w-4 rounded"
             />
             <span className="text-sm">Publish immediately</span>

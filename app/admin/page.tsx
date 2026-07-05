@@ -28,6 +28,7 @@ export default function AdminDashboard() {
     if (!user) {
       return;
     }
+
     let cancelled = false;
     user.getIdToken().then(async (token) => {
       const res = await fetch('/api/posts/all', {
@@ -36,28 +37,34 @@ export default function AdminDashboard() {
       if (cancelled) {
         return;
       }
+
       if (res.ok) {
         setPosts(await res.json());
       }
+
       setLoading(false);
     });
+
     return () => {
       cancelled = true;
     };
   }, [user]);
 
   const confirmDelete = async () => {
-    if (!deletingSlug || !user) return;
+    if (!deletingSlug || !user) {
+      return;
+    }
+
     const token = await user.getIdToken();
     await fetch(`/api/posts/${deletingSlug}`, {
       method: 'DELETE',
       headers: { Authorization: `Bearer ${token}` },
     });
-    setPosts((prev) => prev.filter((p) => p.slug !== deletingSlug));
+    setPosts((prev) => prev.filter((post) => post.slug !== deletingSlug));
     setDeletingSlug(null);
   };
 
-  const deletingPost = posts.find((p) => p.slug === deletingSlug);
+  const deletingPost = posts.find((post) => post.slug === deletingSlug);
 
   return (
     <div>

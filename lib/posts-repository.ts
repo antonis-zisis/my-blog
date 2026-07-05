@@ -33,6 +33,7 @@ export type UpdatePostInput = Partial<
 
 function toPost(doc: FirebaseFirestore.QueryDocumentSnapshot): Post {
   const data = doc.data();
+
   return {
     slug: doc.id,
     title: data.title,
@@ -92,6 +93,7 @@ export async function getPost(slug: string): Promise<PostWithContent | null> {
 
 export async function postExists(slug: string): Promise<boolean> {
   const doc = await adminDb.collection('posts').doc(slug).get();
+
   return doc.exists;
 }
 

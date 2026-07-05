@@ -21,6 +21,7 @@ function getApp(): FirebaseApp {
     _app =
       getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
   }
+
   return _app;
 }
 
@@ -28,6 +29,7 @@ function getAuthInstance(): Auth {
   if (!_auth) {
     _auth = getAuth(getApp());
   }
+
   return _auth;
 }
 
@@ -54,6 +56,7 @@ export const auth = new Proxy({} as Auth, {
     const instance = getAuthInstance();
 
     const value = (instance as any)[prop];
+
     return typeof value === 'function' ? value.bind(instance) : value;
   },
 });

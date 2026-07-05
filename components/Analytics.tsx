@@ -14,6 +14,7 @@ export default function Analytics() {
       if (!analytics) {
         return;
       }
+
       setAnalyticsCollectionEnabled(analytics, !isAdmin);
     });
 
