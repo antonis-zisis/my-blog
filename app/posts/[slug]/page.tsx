@@ -10,6 +10,7 @@ import type { Metadata } from 'next';
 
 export async function generateStaticParams() {
   const posts = await getPublishedPosts();
+
   return posts.map((post) => ({ slug: post.slug }));
 }
 

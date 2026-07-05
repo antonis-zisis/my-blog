@@ -12,6 +12,12 @@ Always use `pnpm`. Never use `npm` or `yarn`.
 ## ESLint rules
 
 - `curly: all` — always use curly braces for `if`/`else`/`for`/`while` bodies, even single-line ones.
+- `id-length` (min 2) — no single-character identifiers (e.g. use `event` not `e`, `post` not `p`). Exceptions: `_` and `r`.
+- `padding-line-between-statements` — blank line required before every `return` and after every block-like statement (`if`, `for`, `try`, etc.).
+
+## Testing
+
+- No test suite exists yet. The agreed plan lives in `docs/test-plan.md` (Vitest + React Testing Library, behavior tests only — no snapshot tests). Execute it phase by phase when asked to add tests.
 
 ## Architecture
 

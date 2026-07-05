@@ -5,6 +5,12 @@ const eslintConfig = [
   {
     rules: {
       curly: ['error', 'all'],
+      'id-length': ['warn', { min: 2, exceptions: ['_', 'r'] }],
+      'padding-line-between-statements': [
+        'error',
+        { blankLine: 'always', prev: 'block-like', next: '*' },
+        { blankLine: 'always', prev: '*', next: 'return' },
+      ],
     },
   },
 ];

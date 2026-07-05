@@ -20,7 +20,7 @@ import {
 } from 'lucide-react';
 import clsx from 'clsx';
 
-const s = 16;
+const iconSize = 16;
 
 function ToolbarButton({
   onClick,
@@ -68,35 +68,35 @@ export default function EditorToolbar({
         active={editor.isActive('bold')}
         title="Bold"
       >
-        <Bold size={s} />
+        <Bold size={iconSize} />
       </ToolbarButton>
       <ToolbarButton
         onClick={() => editor.chain().focus().toggleItalic().run()}
         active={editor.isActive('italic')}
         title="Italic"
       >
-        <Italic size={s} />
+        <Italic size={iconSize} />
       </ToolbarButton>
       <ToolbarButton
         onClick={() => editor.chain().focus().toggleUnderline().run()}
         active={editor.isActive('underline')}
         title="Underline"
       >
-        <UnderlineIcon size={s} />
+        <UnderlineIcon size={iconSize} />
       </ToolbarButton>
       <ToolbarButton
         onClick={() => editor.chain().focus().toggleStrike().run()}
         active={editor.isActive('strike')}
         title="Strikethrough"
       >
-        <Strikethrough size={s} />
+        <Strikethrough size={iconSize} />
       </ToolbarButton>
       <ToolbarButton
         onClick={() => editor.chain().focus().toggleCode().run()}
         active={editor.isActive('code')}
         title="Inline code"
       >
-        <Code size={s} />
+        <Code size={iconSize} />
       </ToolbarButton>
 
       <div className="mx-1 w-px bg-(--border)" />
@@ -106,21 +106,21 @@ export default function EditorToolbar({
         active={editor.isActive('heading', { level: 1 })}
         title="Heading 1"
       >
-        <Heading1 size={s} />
+        <Heading1 size={iconSize} />
       </ToolbarButton>
       <ToolbarButton
         onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
         active={editor.isActive('heading', { level: 2 })}
         title="Heading 2"
       >
-        <Heading2 size={s} />
+        <Heading2 size={iconSize} />
       </ToolbarButton>
       <ToolbarButton
         onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
         active={editor.isActive('heading', { level: 3 })}
         title="Heading 3"
       >
-        <Heading3 size={s} />
+        <Heading3 size={iconSize} />
       </ToolbarButton>
 
       <div className="mx-1 w-px bg-(--border)" />
@@ -130,30 +130,30 @@ export default function EditorToolbar({
         active={editor.isActive('bulletList')}
         title="Bullet list"
       >
-        <List size={s} />
+        <List size={iconSize} />
       </ToolbarButton>
       <ToolbarButton
         onClick={() => editor.chain().focus().toggleOrderedList().run()}
         active={editor.isActive('orderedList')}
         title="Ordered list"
       >
-        <ListOrdered size={s} />
+        <ListOrdered size={iconSize} />
       </ToolbarButton>
       <ToolbarButton
         onClick={() => editor.chain().focus().toggleBlockquote().run()}
         active={editor.isActive('blockquote')}
         title="Blockquote"
       >
-        <Quote size={s} />
+        <Quote size={iconSize} />
       </ToolbarButton>
 
       <div className="mx-1 w-px bg-(--border)" />
 
       <ToolbarButton onClick={onAddLink} title="Add link">
-        <LinkIcon size={s} />
+        <LinkIcon size={iconSize} />
       </ToolbarButton>
       <ToolbarButton onClick={onAddImage} title="Add image">
-        <ImageIcon size={s} />
+        <ImageIcon size={iconSize} />
       </ToolbarButton>
 
       <div className="mx-1 w-px bg-(--border)" />
@@ -162,13 +162,13 @@ export default function EditorToolbar({
         onClick={() => editor.chain().focus().undo().run()}
         title="Undo"
       >
-        <Undo size={s} />
+        <Undo size={iconSize} />
       </ToolbarButton>
       <ToolbarButton
         onClick={() => editor.chain().focus().redo().run()}
         title="Redo"
       >
-        <Redo size={s} />
+        <Redo size={iconSize} />
       </ToolbarButton>
     </div>
   );

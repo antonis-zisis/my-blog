@@ -19,12 +19,14 @@ export default function ConfirmModal({
   onCancel,
 }: ConfirmModalProps) {
   useEffect(() => {
-    const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
         onCancel();
       }
     };
+
     document.addEventListener('keydown', onKeyDown);
+
     return () => document.removeEventListener('keydown', onKeyDown);
   }, [onCancel]);
 
@@ -35,7 +37,7 @@ export default function ConfirmModal({
     >
       <div
         className="w-full max-w-sm rounded-xl border border-(--border) bg-(--background) p-6 shadow-xl"
-        onClick={(e) => e.stopPropagation()}
+        onClick={(event) => event.stopPropagation()}
       >
         <div className="flex items-start gap-3">
           <TriangleAlert

@@ -66,6 +66,9 @@ lib/
 ├── cloudinary.ts               # Cloudinary URL transformation
 ├── posts-repository.ts         # Firestore data access layer
 └── utils.ts                    # Slug generation, date formatting, reading time
+
+docs/
+└── test-plan.md                # Phased testing plan (Vitest + RTL — not yet implemented)
 ```
 
 ## Caching and cold starts

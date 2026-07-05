@@ -27,6 +27,7 @@ export default function EditPostPage({ params }: PageProps) {
       if (!user) {
         return;
       }
+
       const token = await user.getIdToken();
       const res = await fetch(`/api/posts/${slug}`, {
         headers: { Authorization: `Bearer ${token}` },
@@ -39,13 +40,15 @@ export default function EditPostPage({ params }: PageProps) {
         setCoverImage(data.coverImage || '');
         setPublished(data.published);
       }
+
       setLoading(false);
     };
+
     fetchPost();
   }, [slug, user]);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
     if (!user || !title || !content) {
       return;
     }
@@ -95,7 +98,7 @@ export default function EditPostPage({ params }: PageProps) {
           <input
             type="text"
             value={title}
-            onChange={(e) => setTitle(e.target.value)}
+            onChange={(event) => setTitle(event.target.value)}
             required
             className="w-full rounded-lg border border-(--border) bg-transparent px-4 py-2.5 focus:border-(--primary) focus:outline-none"
           />
@@ -107,7 +110,7 @@ export default function EditPostPage({ params }: PageProps) {
           </label>
           <textarea
             value={excerpt}
-            onChange={(e) => setExcerpt(e.target.value)}
+            onChange={(event) => setExcerpt(event.target.value)}
             rows={4}
             className="w-full rounded-lg border border-(--border) bg-transparent px-4 py-2.5 focus:border-(--primary) focus:outline-none"
           />
@@ -120,7 +123,7 @@ export default function EditPostPage({ params }: PageProps) {
           <input
             type="url"
             value={coverImage}
-            onChange={(e) => setCoverImage(e.target.value)}
+            onChange={(event) => setCoverImage(event.target.value)}
             className="w-full rounded-lg border border-(--border) bg-transparent px-4 py-2.5 focus:border-(--primary) focus:outline-none"
           />
         </div>
@@ -137,7 +140,7 @@ export default function EditPostPage({ params }: PageProps) {
             <input
               type="checkbox"
               checked={published}
-              onChange={(e) => setPublished(e.target.checked)}
+              onChange={(event) => setPublished(event.target.checked)}
               className="h-4 w-4 rounded"
             />
             <span className="text-sm">Published</span>
