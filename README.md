@@ -13,6 +13,7 @@ Personal blog at [blog.antoniszisis.com](https://blog.antoniszisis.com)
 - **Editor:** TipTap (WYSIWYG)
 - **Dark mode:** next-themes
 - **Icons:** lucide-react
+- **Testing:** Vitest + React Testing Library
 - **Analytics:** Firebase Analytics + Umami
 - **Hosting:** Netlify, Cloudinary (Images)
 
@@ -25,6 +26,8 @@ Personal blog at [blog.antoniszisis.com](https://blog.antoniszisis.com)
 | `pnpm start`       | Start production server       |
 | `pnpm lint`        | Run ESLint                    |
 | `pnpm typecheck`   | Run TypeScript checks         |
+| `pnpm test`        | Run test suite (Vitest)       |
+| `pnpm test:watch`  | Run tests in watch mode       |
 | `pnpm format`      | Format codebase with Prettier |
 | `pnpm env:encrypt` | Encrypt `.env` to `.env.gpg`  |
 | `pnpm env:decrypt` | Decrypt `.env.gpg` to `.env`  |
@@ -72,8 +75,12 @@ src/
     ├── posts-repository.ts         # Firestore data access layer
     └── utils.ts                    # Slug generation, date formatting, reading time
 
-docs/
-└── test-plan.md                    # Phased testing plan (Vitest + RTL — not yet implemented)
+test/
+├── setup.ts                        # jest-dom matchers + explicit RTL cleanup
+├── stubs/server-only.ts            # Empty stub so server-only modules load under Vitest
+├── lib/                            # utils + auth-utils tests
+├── api/                            # API route handler tests
+└── components/                     # PostContent, ConfirmModal, AuthGuard tests
 ```
 
 ## Caching and cold starts
