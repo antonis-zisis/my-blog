@@ -18,57 +18,62 @@ Personal blog at [blog.antoniszisis.com](https://blog.antoniszisis.com)
 
 ## Scripts
 
-| Command       | Description                   |
-| ------------- | ----------------------------- |
-| `pnpm dev`    | Start dev server (Turbopack)  |
-| `pnpm build`  | Production build              |
-| `pnpm start`  | Start production server       |
-| `pnpm lint`   | Run ESLint                    |
-| `pnpm format` | Format codebase with Prettier |
+| Command            | Description                   |
+| ------------------ | ----------------------------- |
+| `pnpm dev`         | Start dev server (Turbopack)  |
+| `pnpm build`       | Production build              |
+| `pnpm start`       | Start production server       |
+| `pnpm lint`        | Run ESLint                    |
+| `pnpm typecheck`   | Run TypeScript checks         |
+| `pnpm format`      | Format codebase with Prettier |
+| `pnpm env:encrypt` | Encrypt `.env` to `.env.gpg`  |
+| `pnpm env:decrypt` | Decrypt `.env.gpg` to `.env`  |
 
 ## Project Structure
 
 ```text
-app/
-├── layout.tsx                  # Root layout (ThemeProvider, AuthProvider, Navbar)
-├── page.tsx                    # Homepage — list published posts
-├── globals.css
-├── posts/[slug]/page.tsx       # Public post view
-├── login/page.tsx              # Google sign-in
-├── admin/
-│   ├── layout.tsx              # Auth guard wrapper
-│   ├── page.tsx                # Dashboard — list all posts, delete
-│   ├── new/page.tsx            # Create post (TipTap editor)
-│   └── edit/[slug]/page.tsx    # Edit post (TipTap editor)
-└── api/posts/
-    ├── route.ts                # GET (list published), POST (create)
-    ├── all/route.ts            # GET (list all — admin only)
-    └── [slug]/route.ts         # GET, PUT, DELETE
-
-components/
-├── Analytics.tsx               # Combined Firebase + Umami analytics
-├── Editor.tsx                  # TipTap editor
-├── EditorToolbar.tsx           # TipTap toolbar buttons
-├── PostCard.tsx                # Post preview card
-├── PostContent.tsx             # Renders sanitized HTML
-├── Navbar.tsx                  # Navigation + theme toggle
-├── ThemeToggle.tsx             # Sun/moon toggle
-├── AuthGuard.tsx               # Protects admin routes
-├── LoginButton.tsx             # Google sign-in button
-├── ConfirmModal.tsx            # Delete confirmation dialog
-└── Footer.tsx                  # Footer with social links
-
-lib/
-├── firebase.ts                 # Client SDK init
-├── firebase-admin.ts           # Admin SDK init (server-only)
-├── auth-context.tsx            # React context for auth state
-├── auth-utils.ts               # assertAdmin helper for API routes
-├── cloudinary.ts               # Cloudinary URL transformation
-├── posts-repository.ts         # Firestore data access layer
-└── utils.ts                    # Slug generation, date formatting, reading time
+src/
+├── app/
+│   ├── layout.tsx                  # Root layout (ThemeProvider, AuthProvider, Navbar)
+│   ├── page.tsx                    # Homepage — list published posts
+│   ├── globals.css
+│   ├── error.tsx                   # Error boundary
+│   ├── loading.tsx                 # Loading state
+│   ├── not-found.tsx               # 404 page
+│   ├── posts/[slug]/page.tsx       # Public post view
+│   ├── login/page.tsx              # Google sign-in
+│   ├── admin/
+│   │   ├── layout.tsx              # Auth guard wrapper
+│   │   ├── page.tsx                # Dashboard — list all posts, delete
+│   │   ├── new/page.tsx            # Create post (TipTap editor)
+│   │   └── edit/[slug]/page.tsx    # Edit post (TipTap editor)
+│   └── api/posts/
+│       ├── route.ts                # GET (list published), POST (create)
+│       ├── all/route.ts            # GET (list all — admin only)
+│       └── [slug]/route.ts         # GET, PUT, DELETE
+├── components/
+│   ├── Analytics.tsx               # Combined Firebase + Umami analytics
+│   ├── Editor.tsx                  # TipTap editor
+│   ├── EditorToolbar.tsx           # TipTap toolbar buttons
+│   ├── PostCard.tsx                # Post preview card
+│   ├── PostContent.tsx             # Renders sanitized HTML
+│   ├── Navbar.tsx                  # Navigation + theme toggle
+│   ├── ThemeToggle.tsx             # Sun/moon toggle
+│   ├── AuthGuard.tsx               # Protects admin routes
+│   ├── LoginButton.tsx             # Google sign-in button
+│   ├── ConfirmModal.tsx            # Delete confirmation dialog
+│   └── Footer.tsx                  # Footer with social links
+└── lib/
+    ├── firebase.ts                 # Client SDK init
+    ├── firebase-admin.ts           # Admin SDK init (server-only)
+    ├── auth-context.tsx            # React context for auth state
+    ├── auth-utils.ts               # assertAdmin helper for API routes
+    ├── cloudinary.ts               # Cloudinary URL transformation
+    ├── posts-repository.ts         # Firestore data access layer
+    └── utils.ts                    # Slug generation, date formatting, reading time
 
 docs/
-└── test-plan.md                # Phased testing plan (Vitest + RTL — not yet implemented)
+└── test-plan.md                    # Phased testing plan (Vitest + RTL — not yet implemented)
 ```
 
 ## Caching and cold starts
@@ -77,8 +82,8 @@ Netlify runs Next.js server components via serverless functions. On a low-traffi
 
 **How this is solved:** all public-facing pages are fully static — pre-rendered at build time and served directly from Netlify's CDN. No serverless function is involved when navigating between pages, so cold starts don't affect visitors.
 
-- `app/page.tsx` — no `revalidate`, no `force-dynamic` → fully static, served from CDN
-- `app/posts/[slug]/page.tsx` — `generateStaticParams` pre-renders all published posts at build time; no time-based revalidation, content is updated only via `revalidatePath`
+- `src/app/page.tsx` — no `revalidate`, no `force-dynamic` → fully static, served from CDN
+- `src/app/posts/[slug]/page.tsx` — `generateStaticParams` pre-renders all published posts at build time; no time-based revalidation, content is updated only via `revalidatePath`
 
 Since static pages don't re-fetch on every request, content is kept fresh via **on-demand revalidation**: every API route that mutates data calls `revalidatePath()` from `next/cache`, which tells Next.js to regenerate the affected static pages immediately.
 
